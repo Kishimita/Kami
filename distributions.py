@@ -279,7 +279,7 @@ class UniformDist:
     __slots__ = {'_a': "minimum value", 
                  '_b': "maximum value",
                  '_x': "random variable",
-                 "-_n": "number of equally likely outcomes"}
+                 "_n": "number of equally likely outcomes"}
     
     def __init__(self, a, b, x) -> None:
         """Discrete uniform distribution is a probability distribution that describes the likelihood of outcomes when each outcome in a 
@@ -712,9 +712,6 @@ class ChiSquaredDist:
     def __repr__(self: "ChiSquaredDist") -> str:
         return f"{type(self).__name__} with values: (ν={self._ν}, x={self._x})"
     
-
-        
-
 def main():
     """Main function to test the classes"""
     return None 
