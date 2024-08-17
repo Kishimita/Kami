@@ -1,7 +1,7 @@
 import math
 import random as rnd
 import sympy as sp
-from statistics import *
+from statistics import mean, stdev, variance
 
 class BinomialDist:
     "Binomial distribution of a random variable"
@@ -466,60 +466,258 @@ class NegativeBinomialDist:
     def __repr__(self: "NegativeBinomialDist") -> str:
         return f"{type(self).__name__} with values: (r={self._r}, p={self._p}, q={self._q}, k={self._k})"
     
+class StudentDist:
+    "Student's t-distribution of a random variable"
+    # https://en.wikipedia.org/wiki/Student%27s_t-distribution
+
+    __slots__ = {'_ν': "degrees of freedom", 
+                 '_x': "random variable"}
+    
+    def __init__(self, ν, x) -> None:
+        """The Student's t-distribution is a probability distribution that is used to estimate the mean of a normally distributed population 
+        when the sample size is small and the population standard deviation is unknown.
+        Make an instance of a Student's t-distribution, where the Student's t-distribution describes the probability of a random variable taking on a value within a given range."""
+        if ν < 0 or x < 0:
+            raise ValueError("ν and x must be greater than or equal to 0")
+        self._ν = float(ν)
+        self._x = float(x)
+    
+    @classmethod
+    def from_samples(cls, data, x) -> "StudentDist":
+        "Make a student's t-distribution instance from sample data."
+        if(len(data) <= 0):
+            raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
+        elif x < 0:
+            raise ValueError("x must be greater than or equal to 0")
+        elif any(x < 0 for x in data):
+            raise ValueError("sample data must contain values greater than or equal to 0")
+        ν = len(data) - 1
+        return cls(ν, x)
+    
+    def pmf(self: "StudentDist") -> float:
+        """We write X ~ t(ν). The probability of getting a value less than or equal to x in a student's t-distribution is given by the formula: 
+        f(x) = Γ((ν + 1) / 2) / (sqrt(πν) * Γ(ν / 2)) * (1 + x^2 / ν)^(-(ν + 1) / 2)"""
+        return (sp.gamma((self._ν + 1) / 2) / (math.sqrt(math.pi * self._ν) * sp.gamma(self._ν / 2))) * (1 + (self._x ** 2) / self._ν) ** (-(self._ν + 1) / 2)
+    
+    def cdf(self: "StudentDist") -> float:
+        """The cumulative distribution function is the probability of getting a value less than or equal to x in a student's t-distribution.
+        F(x) = 1 - 0.5 * [I_{x(t}(ν / 2, 1 / 2)]"""
+        return 1 - (0.5 * sp.betainc(self._ν / 2, 1 / 2))
+    
+    @property
+    def mean(self: "StudentDist") -> float:
+        """The mean of the student's t-distribution is given by the formula E(X) = 0"""
+        if self._ν > 1:
+            return 0
+    
+    @property
+    def variance(self: "StudentDist") -> float:
+        """The variance of the student's t-distribution is given by the formula Var(X) = ν / (ν - 2)"""
+        if self._ν > 2:
+            return self._ν / (self._ν - 2)
+        elif self._ν < 2 and self._ν > 1:
+            return math.inf
+        else:
+            return math.nan
+
+    
+    @property
+    def std_dev(self: "StudentDist") -> float:
+        """The standard deviation of the student's t-distribution is given by the formula σ = sqrt(ν / (ν - 2))"""
+        return math.sqrt(self.variance)
+    
+    def __repr__(self: "StudentDist") -> str:
+        return f"{type(self).__name__} with values: (ν={self._ν}, x={self._x})"
+    
+class FDist:
+    "Fisher-Snedechor's or F-distribution of a random variable"
+    # https://en.wikipedia.org/wiki/F-distribution
+
+    __slots__ = {'_ν1': "degrees of freedom of the numerator", 
+                 '_ν2': "degrees of freedom of the denominator",
+                 '_x': "random variable"}
+    
+    def __init__(self, ν1, ν2, x) -> None:
+        """The F-distribution with d1 and d2 degrees of freedom is the distribution of the ratio of two independent chi-squared random variables,
+        each divided by its degrees of freedom. The F-distribution is a probability distribution that is used in the analysis of variance tests.
+        Make an instance of an F-distribution, where the F-distribution describes the probability of a random variable 
+        taking on a value within a given range."""
+        if ν1 < 0 or ν2 < 0 or x < 0:
+            raise ValueError("ν1, ν2, and x must be greater than or equal to 0")
+        self._ν1 = float(ν1)
+        self._ν2 = float(ν2)
+        self._x = float(x)
+    
+    @classmethod
+    def from_samples(cls, data, x) -> "FDist":
+        "Make an F-distribution instance from sample data."
+        if(len(data) <= 0):
+            raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
+        elif x < 0:
+            raise ValueError("x must be greater than or equal to 0")
+        elif any(x < 0 for x in data):
+            raise ValueError("sample data must contain values greater than or equal to 0")
+        ν1 = len(data) - 1
+        ν2 = len(data) - 1
+        return cls(ν1, ν2, x)
+    
+    def pmf(self: "FDist") -> float:
+        """We write X ~ F(ν1, ν2). The probability of getting a value less than or equal to x in an F-distribution is given by the formula: 
+        f(x) = sqrt(((ν1 * x)^ν1 * (v2^v2)) / (ν1 * x + v2) ^(v1 + v2)) / (x * B(ν1 / 2, ν2 / 2))"""
+        return math.sqrt(((self._ν1 * self._x) ** self._ν1 * (self._ν2 ** self._ν2)) / 
+                         ((self._ν1 * self._x + self._ν2) ** (self._ν1 + self._ν2))) / (self._x * sp.beta(self._ν1 / 2, self._ν2 / 2))
+
+    def cdf(self: "FDist") -> float:
+        """The cumulative distribution function is the probability of getting a value less than or equal to x in an F-distribution.
+        F(x) = I_{(v1 * x) / (v1 * x + v2)}(ν1 / 2, ν2 / 2)"""
+        return sp.betainc(self._ν1 / 2, self._ν2 / 2, (self._ν1 * self._x) / (self._ν1 * self._x + self._ν2), 0)
+    
+    @property
+    def mean(self: "FDist") -> float:
+        """The mean of the F-distribution is given by the formula E(X) = ν2 / (ν2 - 2)"""
+        if self._ν2 > 2:
+            return self._ν2 / (self._ν2 - 2)
+        
+    @property
+    def variance(self: "FDist") -> float:
+        """The variance of the F-distribution is given by the formula Var(X) = (2ν2^2 * (ν1 + ν2 - 2)) / (ν1 * (ν2 - 2)^2 * (ν2 - 4))"""
+        if self._ν2 > 4:
+            return (2 * self._ν2 ** 2 * (self._ν1 + self._ν2 - 2)) / (self._ν1 * (self._ν2 - 2) ** 2 * (self._ν2 - 4))
+        elif self._ν2 < 4 and self._ν2 > 2:
+            return math.inf
+        else:
+            return math.nan
+    
+    @property
+    def std_dev(self: "FDist") -> float:
+        """The standard deviation of the F-distribution is given by the formula σ = sqrt((2ν2^2 * (ν1 + ν2 - 2)) / (ν1 * (ν2 - 2)^2 * (ν2 - 4))"""
+        return math.sqrt(self.variance)
+    
+    def __repr__(self: "FDist") -> str:
+        return f"{type(self).__name__} with values: (ν1={self._ν1}, ν2={self._ν2}, x={self._x})"
+
+class GammaDist:
+    "Gamma distribution of a random variable"
+    # https://en.wikipedia.org/wiki/Gamma_distribution
+
+    __slots__ = {'_α': "shape parameter", 
+                 '_β': "rate parameter",
+                 '_x': "random variable"}
+    
+    def __init__(self, α, β, x) -> None:
+        """The gamma distribution is a two-parameter family of continuous probability distributions. The exponential distribution, 
+        Erlang distribution, and chi-squared distribution are special cases of the gamma distribution. Make an instance of a 
+        Gamma Distribution, where the gamma distribution describes the probability of a random variable taking on a value within
+        a given range."""
+        if α < 0 or β < 0 or x < 0:
+            raise ValueError("α, β, and x must be greater than or equal to 0")
+        self._α = float(α)
+        self._β = float(β)
+        self._x = float(x)
+    
+    @classmethod
+    def from_samples(cls, data, x) -> "GammaDist":
+        "Make a gamma distribution instance from sample data."
+        if(len(data) <= 0):
+            raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
+        elif x < 0:
+            raise ValueError("x must be greater than or equal to 0")
+        elif any(x < 0 for x in data):
+            raise ValueError("sample data must contain values greater than or equal to 0")
+        α = mean(data) ** 2 / variance(data)
+        β = variance(data) / mean(data)
+        return cls(α, β, x)
+    
+    def pmf(self: "GammaDist") -> float:
+        """We write X ~ Γ(α, β). The probability of getting a value less than or equal to x in a gamma distribution is given by the formula: 
+        f(x) = (β^α * x^(α - 1) * e^(-β * x)) / Γ(α)"""
+        return (self._β ** self._α * self._x ** (self._α - 1) * math.exp(-self._β * self._x)) / sp.gamma(self._α)
+    
+    def cdf(self: "GammaDist") -> float:
+        """The cumulative distribution function is the probability of getting a value less than or equal to x in a gamma distribution.
+        F(x) = (1 / Γ(α)) * γ(α, β * x)"""
+        return (1 / sp.gamma(self._α)) * sp.gammainc(self._α, self._β * self._x)
+    
+    @property
+    def mean(self: "GammaDist") -> float:
+        """The mean of the gamma distribution is given by the formula E(X) = α / β"""
+        return self._α / self._β
+    
+    @property
+    def variance(self: "GammaDist") -> float:
+        """The variance of the gamma distribution is given by the formula Var(X) = α / β^2"""
+        return self._α / (self._β ** 2)
+    
+    @property
+    def std_dev(self: "GammaDist") -> float:
+        """The standard deviation of the gamma distribution is given by the formula σ = sqrt(α / β^2)"""
+        return math.sqrt(self.variance)
+    
+    def __repr__(self: "GammaDist") -> str:
+        return f"{type(self).__name__} with values: (α={self._α}, β={self._β}, x={self._x})"
+    
+class ChiSquaredDist:
+    "Chi-squared distribution of a random variable"
+    # https://en.wikipedia.org/wiki/Chi-squared_distribution
+
+    __slots__ = {'_ν': "degrees of freedom", 
+                 '_x': "random variable"}
+    
+    def __init__(self, ν, x) -> None:
+        """The chi-squared distribution is a special case of the gamma distribution. It describes the sum of the squares of 
+        ν independent standard normal random variables. Make an instance of a Chi-squared Distribution, where the chi-squared 
+        distribution describes the probability of a random variable taking on a value within a given range."""
+        if ν < 0 or x < 0:
+            raise ValueError("ν and x must be greater than or equal to 0")
+        self._ν = float(ν)
+        self._x = float(x)
+    
+    @classmethod
+    def from_samples(cls, data, x) -> "ChiSquaredDist":
+        "Make a chi-squared distribution instance from sample data."
+        if(len(data) <= 0):
+            raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
+        elif x < 0:
+            raise ValueError("x must be greater than or equal to 0")
+        elif any(x < 0 for x in data):
+            raise ValueError("sample data must contain values greater than or equal to 0")
+        ν = len(data)
+        return cls(ν, x)
+    
+    def pmf(self: "ChiSquaredDist") -> float:
+        """We write X ~ χ^2(ν). The probability of getting a value less than or equal to x in a chi-squared distribution is 
+        given by the formula: f(x) = (1 / (2^(ν / 2) * Γ(ν / 2))) * x^(ν / 2 - 1) * e^(-x / 2)"""
+        return (1 / (2 ** (self._ν / 2) * sp.gamma(self._ν / 2))) * self._x ** (self._ν / 2 - 1) * math.exp(-self._x / 2)
+    
+    def cdf(self: "ChiSquaredDist") -> float:
+        """The cumulative distribution function is the probability of getting a value less than or equal to x in a chi-squared 
+        distribution. F(x) = (1 / Γ(ν / 2)) * γ(ν / 2, x / 2)"""
+        return (1 / sp.gamma(self._ν / 2)) * sp.gammainc(self._ν / 2, self._x / 2)
+    
+    @property
+    def mean(self: "ChiSquaredDist") -> float:
+        """The mean of the chi-squared distribution is given by the formula E(X) = ν"""
+        return self._ν
+    
+    @property
+    def variance(self: "ChiSquaredDist") -> float:
+        """The variance of the chi-squared distribution is given by the formula Var(X) = 2ν"""
+        return 2 * self._ν
+    
+    @property
+    def std_dev(self: "ChiSquaredDist") -> float:
+        """The standard deviation of the chi-squared distribution is given by the formula σ = sqrt(2ν)"""
+        return math.sqrt(self.variance)
+    
+    def __repr__(self: "ChiSquaredDist") -> str:
+        return f"{type(self).__name__} with values: (ν={self._ν}, x={self._x})"
+    
+
+        
 
 def main():
-    # # Example 1
-    # data = []
-    # for i in range(15):
-    #     data.append(rnd.randint(10,55))
-    # print(50*"~*~")
-    # binomial = BinomialDist(15, 0.05, 0.95, 2)
-    # print(f"Before using the class method from_samples: {binomial._n}, {binomial._p}, {binomial._k}")
-    # print(f"Probability Mass Function: {binomial.pmf():.3f}")
-    # print(50*"~*~")
-    # print("\n\n")
-    # print(50*"~*~")
-    # binomial = BinomialDist.from_samples(data, 0.05, 4)
-    # # print(f"After using the class method from_samples: {binomial._n}, {binomial._p}, {binomial._k}")
-    # # print(f"Probability Mass Function: {binomial.pmf():.3f} ")
-    # # print(50*"~*~")
-
-    # print("\n\n")
-    # print(50*"~*~")
-    # print(f"After using the class method from_samples: {binomial._n}, {binomial._p}, {binomial._k}")
-    # print(f"The Cumulative Distribution Function: {1-binomial.cdf():.3f}")
-    # print(50*"~*~")
-
-
-    # # Example 2 of repr
-    # print(50*"~*~")
-    # print(binomial)
-    # print(50*"~*~")
-    print(sp.__docs__)
-    #Example of Hypergeometric Distribution
-    data = [] 
-    for i in range(15):
-        data.append(rnd.randint(10,55))
-    print(50*"~*~")
-    hypergeometric = HypergeometricDist(25, 10, 15, 5)
-    print(hypergeometric)
-    print(f"Before using the class method from_samples: {hypergeometric._N}, {hypergeometric._n}, {hypergeometric._k}")
-    print(f"Probability Mass Function: {hypergeometric.pmf():.3f}")
-    print(f"Cumulative denisty function: {hypergeometric.cdf():.10f}")
-    print(hypergeometric.__repr__())
-    print(50*"~*~")
-    print("\n\n")
-    print(50*"~*~")
-    print(data)
-    hypergeometric = HypergeometricDist.from_samples(data, 10, 5, 2)
-    print(hypergeometric)
-    print(f"After using the class method from_samples: {hypergeometric._N}, {hypergeometric._n}, {hypergeometric._k}")
-    print(f"Probability Mass Function: {hypergeometric.pmf():.3f}")
-    print(f"Cumulative denisty function: {hypergeometric.cdf():.10f}")
-    print(hypergeometric.__repr__())
-    print(50*"~*~")
-    print("\n\n")
-    print(50*"~*~")
+    """Main function to test the classes"""
+    return None 
 
 if __name__ == "__main__":
     main()
