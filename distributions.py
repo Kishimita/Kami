@@ -1,7 +1,7 @@
 import math
 import random as rnd
 import sympy as sp
-from statistics import mean, stdev, variance
+from statistics import mean, variance
 
 class BinomialDist:
     "Binomial distribution of a random variable"
@@ -692,7 +692,7 @@ class ChiSquaredDist:
     def cdf(self: "ChiSquaredDist") -> float:
         """The cumulative distribution function is the probability of getting a value less than or equal to x in a chi-squared 
         distribution. F(x) = (1 / Γ(ν / 2)) * γ(ν / 2, x / 2)"""
-        return (1 / sp.gamma(self._ν / 2)) * sp.gammainc(self._ν / 2, self._x / 2)
+        return 1 - (1 / sp.gamma(self._ν / 2)) * sp.uppergamma(self._ν / 2, self._x / 2)
     
     @property
     def mean(self: "ChiSquaredDist") -> float:
