@@ -1,0 +1,43 @@
+[
+    { "Dist name": "UniformDist",
+      "Case 1": "Positive",
+      "parameters": { "_a": 0, "_b": 1, "_x": 0.5 },
+      "expected": { "pdf": 1, "cdf": 0.5, "mean": 0.5, "variance": 0.0833 } },
+
+    { "Dist name": "UniformDist",
+      "Case 2": "Positive",
+      "parameters": { "_a": 10, "_b": 20, "_x": 15 },
+      "expected": { "pdf": 0.1, "cdf": 0.5, "mean": 15, "variance": 8.333 } },
+
+    { "Dist name": "UniformDist",
+      "Case 3": "Positive",
+      "parameters": { "_a": -5, "_b": 5, "_x": 0 },
+      "expected": { "pdf": 0.1, "cdf": 0.5, "mean": 0, "variance": 8.333 } },
+
+    { "Dist name": "UniformDist",
+      "Case 4": "Positive",
+      "parameters": { "_a": 1, "_b": 3, "_x": 2 },
+      "expected": { "pdf": 0.5, "cdf": 0.5, "mean": 2, "variance": 0.333 } },
+
+    { "Dist name": "UniformDist",
+      "Case 5": "Negative",
+      "parameters": { "_a": 5, "_b": 3, "_x": 4 },
+      "expected": { "pdf": null, "cdf": null, "mean": null, "variance": null } },
+
+    { "Dist name": "UniformDist",
+      "Case 6": "Negative",
+      "parameters": { "_a": "a", "_b": 10, "_x": 5 },
+      "expected": { "pdf": null, "cdf": null, "mean": null, "variance": null } },
+
+    { "Dist name": "UniformDist",
+      "Case 7": "Negative",
+      "parameters": { "_a": 0, "_b": 1, "_x": 2 },
+      "expected": { "pdf": 0, "cdf": 1, "mean": 0.5, "variance": 0.0833 } },
+
+    { "Dist name": "UniformDist",
+      "Case 8": "Negative",
+      "parameters": { "_a": 1, "_b": 0, "_x": 0.5 },
+      "expected": { "pdf": null, "cdf": null, "mean": null, "variance": null } }
+]
+
+  

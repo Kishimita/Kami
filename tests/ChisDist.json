@@ -1,0 +1,69 @@
+
+[
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Positive",
+        "parameters" : {"_ν" : -1, "_x" : null}, 
+        "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Positive", 
+        "parameters" : {"_n" : 1, "_k" : 1}, 
+        "expected" : {"pmf" : 0.24197072451914337, "cdf" : 0.6826894921370859, "mean" : 1, "variance" : 2}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Positive",
+        "parameters" : {"_ν" : 1, "_x" : 1}, 
+        "expected" : {"pmf" : 0.24197072451914337, "cdf" : 0.6826894921370859, "mean" : 1, "variance" : 2}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Positive", 
+        "parameters" : {"_n" : 2, "_k" : 2}, 
+        "expected" : {"pmf" : 0.18393972058572117, "cdf" : 0.5939941502901618, "mean" : 2, "variance" : 4}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Positive",
+        "parameters" : {"_ν" : 2, "_x" : 2}, 
+        "expected" : {"pmf" : 0.18393972058572117, "cdf" : 0.5939941502901618, "mean" : 2, "variance" : 4}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Positive", 
+        "parameters" : {"_n" : 3, "_k" : 3}, 
+        "expected" : {"pmf" : 0.1393800903227192, "cdf" : 0.4772498680518208, "mean" : 3, "variance" : 6}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Negative",
+        "parameters" : {"_ν" : 1, "_x" : 1}, 
+        "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Negative",
+        "parameters" : {"_n" : ["wooo", null, "weird, 100000000"], "_k" : 2}, 
+        "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Negative",
+        "parameters" : {"_ν" : -10000, "_x" : -0.0000}, 
+        "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Negative",
+        "parameters" : {"_n" : 3, "_k" : true}, 
+        "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
+    },
+    {
+        "Dist Name" : "ChiSquaredDist", 
+        "Case" : "Negative",
+        "parameters" : {"_ν" : false, "_x" : 3}, 
+        "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
+    }
+]

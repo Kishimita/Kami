@@ -1,0 +1,50 @@
+[
+    {
+        "Dist name": "FDist",
+        "Case 1": "Positive",
+        "parameters": {"_ν1": 10, "_ν2": 20, "_x": 2.5},
+        "expected": {"pdf": 0.06372449, "cdf": 0.9610964, "mean": 1.3333, "variance": 1.9325}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 2": "Positive",
+        "parameters": {"_ν1": 5, "_ν2": 10, "_x": 1.0},
+        "expected": {"pdf": 0.4954798, "cdf": 0.5348806, "mean": 1.6667, "variance": 3.3333}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 3": "Positive",
+        "parameters": {"_ν1": 15, "_ν2": 30, "_x": 0.5},
+        "expected": {"pdf": 0.5883713, "cdf": 0.07868481, "mean": 1.5000, "variance": 0.9286}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 4": "Positive",
+        "parameters": {"_ν1": 8, "_ν2": 12, "_x": 3.0},
+        "expected": {"pdf": 0.04552152, "cdf": 0.9575776, "mean": 1.3333, "variance": 1.5000}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 5": "Negative",
+        "parameters": {"_ν1": -5, "_ν2": 10, "_x": 1.0},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 6": "Negative",
+        "parameters": {"_ν1": 10, "_ν2": 20, "_x": "invalid"},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 7": "Negative",
+        "parameters": {"_ν1": 10, "_ν2": 2, "_x": 1.0},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "FDist",
+        "Case 8": "Negative",
+        "parameters": {"_ν1": 10, "_ν2": 10, "_x": [1.0, 2.0]},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    }
+]

@@ -1,0 +1,50 @@
+[
+    {
+        "Dist name": "StudentDist",
+        "Case 1": "Positive",
+        "parameters": {"_ν": 10, "_x": 2.5},
+        "expected": {"pdf": 0.02693873, "cdf": 0.9842766, "mean": 0, "variance": 1.25}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 2": "Positive",
+        "parameters": {"_ν": 5, "_x": -1.0},
+        "expected": {"pdf": 0.2196798, "cdf": 0.1816087, "mean": 0, "variance": 1.6667}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 3": "Positive",
+        "parameters": {"_ν": 30, "_x": 0},
+        "expected": {"pdf": 0.3956322, "cdf": 0.5, "mean": 0, "variance": 1.0714}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 4": "Positive",
+        "parameters": {"_ν": 1, "_x": 5.0},
+        "expected": {"pdf": 0.01224269, "cdf": 0.937167, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 5": "Negative",
+        "parameters": {"_ν": -5, "_x": 1.0},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 6": "Negative",
+        "parameters": {"_ν": 10, "_x": "invalid"},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 7": "Negative",
+        "parameters": {"_ν": 0, "_x": 1.0},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "StudentDist",
+        "Case 8": "Negative",
+        "parameters": {"_ν": 10, "_x": [1.0, 2.0]},
+        "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
+    }
+]
