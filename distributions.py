@@ -1,7 +1,7 @@
 import math
 import random as rnd
 import sympy as sp
-from statistics import mean, stdev, variance
+from statistics import mean, variance
 
 class BinomialDist:
     "Binomial distribution of a random variable"
@@ -660,16 +660,18 @@ class ChiSquaredDist:
     "Chi-squared distribution of a random variable"
     # https://en.wikipedia.org/wiki/Chi-squared_distribution
 
-    __slots__ = {'_ν': "degrees of freedom", 
+    __slots__ = {'_df': "degrees of freedom", 
                  '_x': "random variable"}
     
-    def __init__(self, ν, x) -> None:
+    def __init__(self, df, x) -> None:
         """The chi-squared distribution is a special case of the gamma distribution. It describes the sum of the squares of 
-        ν independent standard normal random variables. Make an instance of a Chi-squared Distribution, where the chi-squared 
+        df independent standard normal random variables. Make an instance of a Chi-squared Distribution, where the chi-squared 
         distribution describes the probability of a random variable taking on a value within a given range."""
-        if ν < 0 or x < 0:
-            raise ValueError("ν and x must be greater than or equal to 0")
-        self._ν = float(ν)
+        if df < 0 or x < 0:
+            raise ValueError("df and x must be greater than or equal to 0")
+        elif type(df) == bool or type(x) == bool:
+            raise ValueError("df and x cannot be boolean values") 
+        self._df = float(df)
         self._x = float(x)
     
     @classmethod
@@ -681,40 +683,40 @@ class ChiSquaredDist:
             raise ValueError("x must be greater than or equal to 0")
         elif any(x < 0 for x in data):
             raise ValueError("sample data must contain values greater than or equal to 0")
-        ν = len(data)
-        return cls(ν, x)
+        df = len(data)
+        return cls(df, x)
     
     def pmf(self: "ChiSquaredDist") -> float:
         """We write X ~ χ^2(ν). The probability of getting a value less than or equal to x in a chi-squared distribution is 
-        given by the formula: f(x) = (1 / (2^(ν / 2) * Γ(ν / 2))) * x^(ν / 2 - 1) * e^(-x / 2)"""
-        return (1 / (2 ** (self._ν / 2) * sp.gamma(self._ν / 2))) * self._x ** (self._ν / 2 - 1) * math.exp(-self._x / 2)
+        given by the formula: f(x) = (1 / (2^(df / 2) * Γ(df / 2))) * x^(df / 2 - 1) * e^(-x / 2)"""
+        return (1 / (2 ** (self._df / 2) * sp.gamma(self._df / 2))) * self._x ** (self._df / 2 - 1) * math.exp(-self._x / 2)
     
     def cdf(self: "ChiSquaredDist") -> float:
         """The cumulative distribution function is the probability of getting a value less than or equal to x in a chi-squared 
-        distribution. F(x) = (1 / Γ(ν / 2)) * γ(ν / 2, x / 2)"""
-        return (1 / sp.gamma(self._ν / 2)) * sp.gammainc(self._ν / 2, self._x / 2)
+        distribution. F(x) = (1 / Γ(df / 2)) * df(df / 2, x / 2)"""
+        return (1 / sp.gamma(self._df / 2)) * sp.lowergamma(self._df / 2, self._x / 2)
     
     @property
     def mean(self: "ChiSquaredDist") -> float:
-        """The mean of the chi-squared distribution is given by the formula E(X) = ν"""
-        return self._ν
+        """The mean of the chi-squared distribution is given by the formula E(X) = df"""
+        return self._df
     
     @property
     def variance(self: "ChiSquaredDist") -> float:
-        """The variance of the chi-squared distribution is given by the formula Var(X) = 2ν"""
-        return 2 * self._ν
+        """The variance of the chi-squared distribution is given by the formula Var(X) = 2df"""
+        return 2 * self._df
     
     @property
     def std_dev(self: "ChiSquaredDist") -> float:
-        """The standard deviation of the chi-squared distribution is given by the formula σ = sqrt(2ν)"""
+        """The standard deviation of the chi-squared distribution is given by the formula σ = sqrt(2df)"""
         return math.sqrt(self.variance)
     
     def __repr__(self: "ChiSquaredDist") -> str:
-        return f"{type(self).__name__} with values: (ν={self._ν}, x={self._x})"
+        return f"{type(self).__name__} with values: (df={self._df}, x={self._x})"
     
 def main():
     """Main function to test the classes"""
-    return None 
+    return None
 
 if __name__ == "__main__":
     main()

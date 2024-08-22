@@ -3,7 +3,7 @@
     {
         "Dist Name" : "ChiSquaredDist", 
         "Case" : "Positive",
-        "parameters" : {"_ν" : -1, "_x" : null}, 
+        "parameters" : {"_df" : -1, "_x" : null}, 
         "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
     },
     {
@@ -15,7 +15,7 @@
     {
         "Dist Name" : "ChiSquaredDist", 
         "Case" : "Positive",
-        "parameters" : {"_ν" : 1, "_x" : 1}, 
+        "parameters" : {"_df" : 1, "_x" : 1}, 
         "expected" : {"pmf" : 0.24197072451914337, "cdf" : 0.6826894921370859, "mean" : 1, "variance" : 2}
     },
     {
@@ -27,7 +27,7 @@
     {
         "Dist Name" : "ChiSquaredDist", 
         "Case" : "Positive",
-        "parameters" : {"_ν" : 2, "_x" : 2}, 
+        "parameters" : {"_df" : 2, "_x" : 2}, 
         "expected" : {"pmf" : 0.18393972058572117, "cdf" : 0.5939941502901618, "mean" : 2, "variance" : 4}
     },
     {
@@ -39,7 +39,7 @@
     {
         "Dist Name" : "ChiSquaredDist", 
         "Case" : "Negative",
-        "parameters" : {"_ν" : 1, "_x" : 1}, 
+        "parameters" : {"_df" : 1, "_x" : 1}, 
         "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
     },
     {
@@ -51,7 +51,7 @@
     {
         "Dist Name" : "ChiSquaredDist", 
         "Case" : "Negative",
-        "parameters" : {"_ν" : -10000, "_x" : -0.0000}, 
+        "parameters" : {"_df" : -10000, "_x" : -0.0000}, 
         "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
     },
     {
@@ -63,7 +63,7 @@
     {
         "Dist Name" : "ChiSquaredDist", 
         "Case" : "Negative",
-        "parameters" : {"_ν" : false, "_x" : 3}, 
+        "parameters" : {"_df" : false, "_x" : 3}, 
         "expected" : {"pmf" : null, "cdf" : null, "mean" : null, "variance" : null}
     }
 ]
