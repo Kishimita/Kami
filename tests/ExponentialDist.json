@@ -1,10 +1,10 @@
 [
     {
         "Dist name": "Exponential Dist",
-        "Case 1": "Positive",
+        "Case": "Positive",
         "parameters": {"_λ": 2, "_x": 1},
         "expected": {
-            "pdf": 0.2706706,
+            "pmf": 0.2706706,
             "cdf": 0.8646647,
             "mean": 0.5,
             "variance": 0.25
@@ -12,10 +12,10 @@
     },
     {
         "Dist name": "Exponential Dist",
-        "Case 2": "Positive",
+        "Case": "Positive",
         "parameters": {"_λ": 0.5, "_x": 3},
         "expected": {
-            "pdf": 0.1115651,
+            "pmf": 0.1115651,
             "cdf": 0.7768698,
             "mean": 2.0,
             "variance": 4.0
@@ -23,21 +23,43 @@
     },
     {
         "Dist name": "Exponential Dist",
-        "Case 3": "Positive",
+        "Case": "Positive",
         "parameters": {"_λ": 1, "_x": 0.5},
         "expected": {
-            "pdf": 0.6065307,
+            "pmf": 0.6065307,
             "cdf": 0.3934693,
             "mean": 1.0,
             "variance": 1.0
         }
     },
     {
+        "Dist name" :"Exponential Dist",
+        "Case": "Positive",
+        "parameters": {"_λ": 1, "_x": 1},
+        "expected": {
+            "pmf": 0.3678794,
+            "cdf": 0.6321206,
+            "mean": 1.0,
+            "variance": 1.0
+        }
+    },
+    {
         "Dist name": "Exponential Dist",
-        "Case 4": "Negative",
+        "Case": "Positive",
+        "parameters": {"_λ": 55, "_x": 3},
+        "expected": {
+            "pmf": 0.0,
+            "cdf": 0.0,
+            "mean": 0.0181818,
+            "variance": 0.0003312
+        }
+    },
+    {
+        "Dist name": "Exponential Dist",
+        "Case": "Negative",
         "parameters": {"_λ": 2, "_x": -1},
         "expected": {
-            "pdf": 0,
+            "pmf": 0,
             "cdf": 0,
             "mean": 0.5,
             "variance": 0.25
@@ -45,10 +67,10 @@
     },
     {
         "Dist name": "Exponential Dist",
-        "Case 5": "Negative",
+        "Case": "Negative",
         "parameters": {"_λ": -1, "_x": 1},
         "expected": {
-            "pdf": null,
+            "pmf": null,
             "cdf": null,
             "mean": null,
             "variance": null
@@ -56,13 +78,68 @@
     },
     {
         "Dist name": "Exponential Dist",
-        "Case 6": "Negative",
-        "parameters": {"_λ": 0, "_x": 1},
+        "Case": "Negative",
+        "parameters": {"_λ": "Hello", "_x": 1},
         "expected": {
-            "pdf": null,
+            "pmf": null,
             "cdf": null,
             "mean": null,
             "variance": null
+        }
+    },
+    {
+        "Dist name": "Exponential Dist",
+        "Case": "Negative",
+        "parameters": {"_λ": -10, "_x": 1},
+        "expected": {
+            "pmf": null,
+            "cdf": null,
+            "mean": null,
+            "variance": null
+        }
+    },
+    {
+        "Dist name": "Exponential Dist",
+        "Case": "Negative",
+        "parameters": {"_λ": 10, "_x": "Hello"},
+        "expected": {
+            "pmf": null,
+            "cdf": null,
+            "mean": null,
+            "variance": null
+        }
+    },
+    {
+        "Dist name": "Exponential Dist",
+        "Case": "Negative",
+        "parameters": {"_λ": true, "_x": -1},
+        "expected": {
+            "pmf": 0,
+            "cdf": 0,
+            "mean": 0.1,
+            "variance": 0.01
+        }
+    },
+    {
+        "Dist name": "Exponential Dist",
+        "Case": "Negative",
+        "parameters": {"_λ": 1, "_x": true},
+        "expected": {
+            "pmf": 0,
+            "cdf": 0,
+            "mean": 0.1,
+            "variance": 0.01
+        }
+    },
+    {
+        "Dist name": "Exponential Dist",
+        "Case": "Negative",
+        "parameters": {"_λ": [1, 0.00001, "Hello"], "_x": true},
+        "expected": {
+            "pmf": 0,
+            "cdf": 0,
+            "mean": 0.1,
+            "variance": 0.01
         }
     }
 ]

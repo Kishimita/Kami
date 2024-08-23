@@ -1,6 +1,6 @@
 import unittest
 import json
-from distributions import ChiSquaredDist
+from KishStats_API.distributions import ChiSquaredDist
 
 class ChiSquaredDist_Test(unittest.TestCase):
     def __init__(self):

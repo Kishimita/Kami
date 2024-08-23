@@ -19,7 +19,7 @@ Instructions on how to install the necessary packages and set up the environment
 
 ```sh
 # Clone the repository
-git clone https://github.com/yourusername/KishStats_API.git
+git clone https://github.com/kishimita/KishStats_API.git
 
 # Navigate to the project directory
 cd KishStats_API

@@ -19,11 +19,13 @@ class BinomialDist:
             raise ValueError("n must be greater than 0 and k must be greater than or equal to 0")
         elif p < 0 or p > 1 or q < 0 or q > 1:
             raise ValueError("p must be between 0 and 1 and q must be between 0 and 1")
+        elif (round(1-p, 4) != round(q, 4)):
+            raise ValueError("p and q must be complements of each other")
         elif(q == None or p == None):
             q = 1 - p
             p = 1 - q
-        elif (1-p != q):
-            raise ValueError("p and q must be complements of each other")
+        elif type(n) == bool or type(p) == bool or type(q) == bool or type(k) == bool:
+            raise ValueError("n, p, q, and k must be integers or floats")
         
         self._n = int(n)
         self._p = float(p)
@@ -52,10 +54,10 @@ class BinomialDist:
         """The cumulative distribution function is the probability of getting k or fewer successes in n independent Bernoulli trials (with the same rate p). 
         It is given by the formula: P(X ≤ k) = ∑(i=0, k) C(n, i) * p^i * q^(n-i)"""
         cumulative_prob = 0
-        for i in range(self._k):
+        for i in range(self._k + 1):
             self._k = i
             cumulative_prob += self.pmf()
-        return 1 - cumulative_prob
+        return cumulative_prob
     
     @property
     def mean(self: "BinomialDist") -> float:
@@ -350,6 +352,8 @@ class ExponentialDist:
         Describes the probability of a random variable taking on a value within a given range, given that the rate of success is λ."""
         if λ < 0 or x < 0:
             raise ValueError("λ and x must be greater than or equal to 0")
+        elif type(λ) == bool or type(x) == bool: 
+            raise ValueError("λ and x must be integers or floats")
         self._λ = float(λ)
         self._x = float(x)
     
@@ -605,10 +609,25 @@ class GammaDist:
                  '_x': "random variable"}
     
     def __init__(self, α, β, x) -> None:
-        """The gamma distribution is a two-parameter family of continuous probability distributions. The exponential distribution, 
+        """
+        ## Description of the Gamma Distribution
+        The gamma distribution is a two-parameter family of continuous probability distributions. The exponential distribution, 
         Erlang distribution, and chi-squared distribution are special cases of the gamma distribution. Make an instance of a 
         Gamma Distribution, where the gamma distribution describes the probability of a random variable taking on a value within
-        a given range."""
+        a given range.
+        
+        ## Parameters
+        - α: float
+            The shape parameter.
+        - β: float
+            The rate parameter.
+        - x: float
+            The random variable.
+        
+        ## Returns
+        - None, it initializes the Gamma Distribution instance.
+        
+        """
         if α < 0 or β < 0 or x < 0:
             raise ValueError("α, β, and x must be greater than or equal to 0")
         self._α = float(α)
@@ -664,9 +683,21 @@ class ChiSquaredDist:
                  '_x': "random variable"}
     
     def __init__(self, df, x) -> None:
-        """The chi-squared distribution is a special case of the gamma distribution. It describes the sum of the squares of 
+        """
+        ## Description of the Chi-Squared Distribution
+        The chi-squared distribution is a special case of the gamma distribution. It describes the sum of the squares of 
         df independent standard normal random variables. Make an instance of a Chi-squared Distribution, where the chi-squared 
-        distribution describes the probability of a random variable taking on a value within a given range."""
+        distribution describes the probability of a random variable taking on a value within a given range.
+        
+        ## Parameters
+        - df: float
+            The degrees of freedom.
+        - x: float
+            The random variable.
+
+        ## Returns
+        - None, it initializes the Chi-squared Distribution instance.
+        """
         if df < 0 or x < 0:
             raise ValueError("df and x must be greater than or equal to 0")
         elif type(df) == bool or type(x) == bool:
@@ -676,7 +707,17 @@ class ChiSquaredDist:
     
     @classmethod
     def from_samples(cls, data, x) -> "ChiSquaredDist":
-        "Make a chi-squared distribution instance from sample data."
+        """
+        ## Description 
+        Initialize an instance of the Chi Square Distribution class from data.
+        
+        ## Parameters
+        - data: List[float]
+        - x: float
+
+        ## Returns
+        - ChiSquaredDist: An instance of the ChiSquaredDist class.
+        """
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
         elif x < 0:
@@ -687,31 +728,86 @@ class ChiSquaredDist:
         return cls(df, x)
     
     def pmf(self: "ChiSquaredDist") -> float:
-        """We write X ~ χ^2(ν). The probability of getting a value less than or equal to x in a chi-squared distribution is 
-        given by the formula: f(x) = (1 / (2^(df / 2) * Γ(df / 2))) * x^(df / 2 - 1) * e^(-x / 2)"""
+        """
+        ## Description
+        We write X ~ χ^2(ν). The probability of getting the exact x in a chi-squared distribution is 
+        given by the formula: f(x) = (1 / (2^(df / 2) * Γ(df / 2))) * x^(df / 2 - 1) * e^(-x / 2)
+        
+        ## Parameters
+        - None
+
+        ## Returns
+        - float: The probability of getting the exact x in a chi-squared distribution.
+        """
         return (1 / (2 ** (self._df / 2) * sp.gamma(self._df / 2))) * self._x ** (self._df / 2 - 1) * math.exp(-self._x / 2)
     
     def cdf(self: "ChiSquaredDist") -> float:
-        """The cumulative distribution function is the probability of getting a value less than or equal to x in a chi-squared 
-        distribution. F(x) = (1 / Γ(df / 2)) * df(df / 2, x / 2)"""
+        """
+        ## Description
+        The cumulative distribution function is the probability of getting a value less than or equal to x in a chi-squared 
+        distribution. F(x) = (1 / Γ(df / 2)) * df(df / 2, x / 2)
+        
+        ## Parameters
+        - None
+
+        ## Returns
+        - float: The probability of getting a value less than or equal to x in a chi-squared distribution.
+        """
         return (1 / sp.gamma(self._df / 2)) * sp.lowergamma(self._df / 2, self._x / 2)
     
     @property
     def mean(self: "ChiSquaredDist") -> float:
-        """The mean of the chi-squared distribution is given by the formula E(X) = df"""
+        """
+        ## Description
+        The mean of the chi-squared distribution is given by the formula E(X) = df
+        
+        ## Paramaters
+        - None
+
+        ## Returns
+        - float: The mean of the chi-squared distribution.
+        """
         return self._df
     
     @property
     def variance(self: "ChiSquaredDist") -> float:
-        """The variance of the chi-squared distribution is given by the formula Var(X) = 2df"""
+        """
+        ## Description
+        The variance of the chi-squared distribution is given by the formula Var(X) = 2df
+        
+        ## Parameters
+        - None
+        
+        ## Returns
+        - float: The variance of the chi-squared distribution.
+        """
         return 2 * self._df
     
     @property
     def std_dev(self: "ChiSquaredDist") -> float:
-        """The standard deviation of the chi-squared distribution is given by the formula σ = sqrt(2df)"""
+        """
+        ## Description
+        The standard deviation of the chi-squared distribution is given by the formula σ = sqrt(2df)
+        
+        ## Parameters
+        - None
+
+        ## Returns
+        - float: The standard deviation of the chi-squared distribution.
+        """
         return math.sqrt(self.variance)
     
     def __repr__(self: "ChiSquaredDist") -> str:
+        """
+        ## Description
+        A string representation of the ChiSquaredDist class.
+        
+        ## Parameters
+        - None
+
+        ## Returns
+        - str: A string representation of the ChiSquaredDist
+        """
         return f"{type(self).__name__} with values: (df={self._df}, x={self._x})"
     
 def main():
