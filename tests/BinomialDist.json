@@ -3,7 +3,7 @@
         "Dist name": "BinomialDist",
         "Case": "Positive",
         "parameters" : {"_k" : 3, "_n" : 7, "_p" : 0.7, "_q" : 0.3},
-       "expected" :   {"pmf" : 0.0972, "cdf" : 0.1260, "mean" : 4.9, "variance" : 1.47}
+        "expected" :   {"pmf" : 0.0972, "cdf" : 0.1260, "mean" : 4.9, "variance" : 1.47}
     },
     {
         "Dist name": "BinomialDist",

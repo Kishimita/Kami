@@ -1,31 +1,31 @@
 [
     {
         "Dist name": "HyperGeometric Dist",
-        "Case 1": "Positive",
+        "Case": "Positive",
         "parameters": {"_k": 2, "_K": 10, "_N": 20, "_n": 5},
         "expected": {"pmf": 0.3483, "cdf": 0.5000, "mean": 2.5, "variance": 1.26}
     },
     {
         "Dist name": "HyperGeometric Dist",
-        "Case 2": "Positive",
+        "Case": "Positive",
         "parameters": {"_k": 1, "_K": 8, "_N": 15, "_n": 4},
         "expected": {"pmf": 0.2051, "cdf": 0.2308, "mean": 2.13, "variance": 1.025}
     },
     {
         "Dist name": "HyperGeometric Dist",
-        "Case 3": "Positive",
+        "Case": "Positive",
         "parameters": {"_k": 3, "_K": 5, "_N": 15, "_n": 6},
         "expected": {"pmf": 0.2398, "cdf": 0.9530, "mean": 2.0, "variance": 1.333}
     },
     {
         "Dist name": "HyperGeometric Dist",
-        "Case 4": "Negative",
+        "Case": "Negative",
         "parameters": {"_k": 2, "_K": 3, "_N": 2, "_n": 6},
         "expected": {"pmf": null, "cdf": null, "mean": 9.0, "variance": null}
     },
     {
         "Dist name": "HyperGeometric Dist",
-        "Case 5": "Negative",
+        "Case": "Negative",
         "parameters": {"_k": 1, "_K": -2, "_N": 10, "_n": 5},
         "expected": {"pmf": null, "cdf": null, "mean": -1.0, "variance": null}
     },
@@ -33,6 +33,42 @@
         "Dist name": "HyperGeometric Dist",
         "Case 6": "Negative",
         "parameters": {"_k": 2, "_K": 3, "_N": 5, "_n": -1},
+        "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
+    },
+    {
+        "Dist name": "HyperGeometric Dist",
+        "Case": "Negative",
+        "parameters": {"_k": "hello", "_K": 3, "_N": 5, "_n": -1},
+        "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
+    },
+    {
+        "Dist name": "HyperGeometric Dist",
+        "Case": "Negative",
+        "parameters": {"_k": 2, "_K": "hello", "_N": 5, "_n": -1},
+        "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
+    },
+    {
+        "Dist name": "HyperGeometric Dist",
+        "Case": "Negative",
+        "parameters": {"_k": 2, "_K": 3, "_N": true, "_n": -1},
+        "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
+    },
+    {
+        "Dist name": "HyperGeometric Dist",
+        "Case": "Negative",
+        "parameters": {"_k": 2, "_K": 3, "_N": 5, "_n": -1},
+        "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
+    },
+    {
+        "Dist name": "HyperGeometric Dist",
+        "Case": "Negative",
+        "parameters": {"_k": [1, "hello"], "_K": 3, "_N": 5, "_n": -1},
+        "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
+    },
+    {
+        "Dist name": "HyperGeometric Dist",
+        "Case": "Negative",
+        "parameters": {"_k": 2, "_K": 3, "_N": {"hello": "boool"}, "_n": -1},
         "expected": {"pmf": null, "cdf": null, "mean": -0.6, "variance": null}
     }
 ]

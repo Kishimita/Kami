@@ -1,11 +1,11 @@
 import unittest
 import json
-from KishStats_API.distributions import ChiSquaredDist
+from distributions import ChiSquaredDist
 
 class ChiSquaredDist_Test(unittest.TestCase):
     def __init__(self):
         """Load the test data from the JSON file"""
-        with open('KishStats_API/tests/test_cases.json', 'r') as file:
+        with open('tests/test_cases.json', 'r') as file:
             self.data = json.load(file)
         self.positive_cases = [d for d in self.data if d["Case"] == "Positive"]
         self.negative_cases = [d for d in self.data if d["Case"] == "Negative"]
