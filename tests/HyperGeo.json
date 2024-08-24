@@ -3,19 +3,19 @@
         "Dist name": "HyperGeometric Dist",
         "Case": "Positive",
         "parameters": {"_k": 2, "_K": 10, "_N": 20, "_n": 5},
-        "expected": {"pmf": 0.3483, "cdf": 0.5000, "mean": 2.5, "variance": 1.26}
+        "expected": {"pmf": 0.3483, "cdf": 0.5000, "mean": 2.5, "variance": 0.9868}
     },
     {
         "Dist name": "HyperGeometric Dist",
         "Case": "Positive",
         "parameters": {"_k": 1, "_K": 8, "_N": 15, "_n": 4},
-        "expected": {"pmf": 0.2051, "cdf": 0.2308, "mean": 2.13, "variance": 1.025}
+        "expected": {"pmf": 0.2051, "cdf": 0.2308, "mean": 2.13, "variance": 0.7822}
     },
     {
         "Dist name": "HyperGeometric Dist",
         "Case": "Positive",
         "parameters": {"_k": 3, "_K": 5, "_N": 15, "_n": 6},
-        "expected": {"pmf": 0.2398, "cdf": 0.9530, "mean": 2.0, "variance": 1.333}
+        "expected": {"pmf": 0.2398, "cdf": 0.9530, "mean": 2.0, "variance": 0.8571}
     },
     {
         "Dist name": "HyperGeometric Dist",

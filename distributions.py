@@ -122,7 +122,7 @@ class HypergeometricDist:
         """The cumulative distribution function is the probability of getting k or fewer successes in n trials (without replacement). 
         It is given by the formula: P(X ≤ k) = ∑(i=0, k) C(r, i) * C(N-r, n-i) / C(N, n)"""
         cumalative_prob = 0
-        for i in range(self._k):
+        for i in range(self._k + 1):
             cumalative_prob += self.pmf()
             self._k-= 1 
         return cumalative_prob
@@ -134,7 +134,7 @@ class HypergeometricDist:
     
     @property
     def variance(self: "HypergeometricDist") -> float:
-        """The variance of the hypergeometric distribution is given by the formula: Var(X) = n * (K / N) * ((N - K) / N) * ((N - n) / (N - 1))"""
+        """The variance of the hypergeometric distribution is given by the formula: Var(X) = n * (K / N) * [(N - K) / N] * [(N - n) / (N - 1)]"""
         return self._n * (self._K / self._N) * ((self._N - self._K) / self._N) * ((self._N - self._n) / (self._N - 1))
     
     @property
@@ -156,6 +156,8 @@ class PoissonDist:
         """Describes the probability of k successes in a fixed interval of time or space, given that the average rate of success is λ."""
         if λ < 0 or k < 0:
             raise ValueError("λ and k must be greater than or equal to 0")
+        if type(λ) == bool or type(k) == bool:
+            raise ValueError("λ and k must be integers or floats")
         
         self._λ = float(λ)
         self._k = int(k)
@@ -169,6 +171,8 @@ class PoissonDist:
             raise ValueError("k must be greater than or equal to 0")
         elif any(x < 0 for x in data):
             raise ValueError("sample data must contain values greater than or euqal to 0")
+        elif type(k) == bool:
+            raise ValueError("k must be an integer or float")
         λ = mean(data)
         return cls(λ, k)
     
@@ -181,7 +185,7 @@ class PoissonDist:
         """The cumulative distribution function is the probability of getting k or fewer successes in a fixed interval of time or space. 
         It is given by the formula: P(X ≤ k) = ∑(i=0, k) (λ^i * e^(-λ)) / i!"""
         cumalative_prob = 0
-        for i in range(self._k):
+        for i in range(self._k+1):
             cumalative_prob += self.pmf()
             self._k-= 1 
         return cumalative_prob
@@ -221,10 +225,12 @@ class GeometricDist:
         elif(q == None or p == None):
             q = 1 - p
             p = 1 - q
-        elif (1-p != q):
+        elif (round(1-p, 4) != round(q, 4)):
             raise ValueError("p and q must be complements of each other")
         elif k < 0:
             raise ValueError("k must be greater than or equal to 0")
+        elif type(p) == bool or type(q) == bool or type(k) == bool:
+            raise ValueError("p, q, and k must be integers or floats")
         
         self._p = float(p)
         self._q = float(q)
@@ -251,10 +257,10 @@ class GeometricDist:
     def cdf(self: "GeometricDist") -> float:
         """The cumulative distribution function is the probability of getting k or fewer failures before the first success in a sequence of Bernoulli trials."""
         cumulative_prob = 0
-        for i in range(self._k):
+        for i in range(self._k + 1):
             self._k = i
-            cumulative_prob += self.pmf()
-        return 1 - cumulative_prob
+            cumulative_prob += ((self._q)**(self._k-1)) * self._p
+        return cumulative_prob
 
     @property
     def mean(self: "GeometricDist") -> float:
@@ -284,15 +290,32 @@ class UniformDist:
                  "_n": "number of equally likely outcomes"}
     
     def __init__(self, a, b, x) -> None:
-        """Discrete uniform distribution is a probability distribution that describes the likelihood of outcomes when each outcome in a 
+        """
+        ##  Description
+        Discrete uniform distribution is a probability distribution that describes the likelihood of outcomes when each outcome in a 
         finite set is equally likely. Make an instance of a Uniform Distribution, where the uniform distribution describes the probability 
-        of a random variable taking on a value within a given range."""
+        of a random variable taking on a value within a given range.
+        
+        ##  Parameters
+        - a: float
+            minimum value
+        - b: float
+            maximum value
+        - x: float
+            random variable
+        
+        ##  Returns
+        None, it creates an instance of the Uniform Distribution class.
+        """
         if a < 0 or b < 0 or x < 0:
             raise ValueError("a, b, and x must be greater than or equal to 0")
         elif a > b:
             raise ValueError("a must be less than or equal to b")
         elif x < a or x > b:
             raise ValueError("x must be greater than or equal to a and less than or equal to b")
+        elif type(a) == bool or type(b) == bool or type(x) == bool:
+            raise ValueError("a, b, and x must be integers or floats")
+        
         self._a = float(a)
         self._b = float(b)
         self._x = float(x)
@@ -328,8 +351,8 @@ class UniformDist:
     
     @property
     def variance(self: "UniformDist") -> float:
-        """The variance of the uniform distribution is given by the formula Var(X) = (n^2 - 1) / 12"""
-        return (self._n ** 2 - 1) / 12
+        """The variance of the uniform distribution is given by the formula Var(X) = (((n+1)^2) - 1) / 12"""
+        return (((self._n + 1) ** 2) - 1) / 12
     
     @property
     def std_dev(self: "UniformDist") -> float:
