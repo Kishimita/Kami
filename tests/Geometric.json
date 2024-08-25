@@ -1,38 +1,62 @@
 [
     {
         "Dist name": "Geometric Dist",
-        "Case 1": "Positive",
+        "Case": "Positive",
         "parameters": {"_p": 0.3, "_q": 0.7, "_k": 2},
-        "expected": {"pmf": 0.1470, "cdf": 0.6570, "mean": 3.3333, "variance": 6.6667}
+        "expected": {"pmf": 0.2100, "cdf": 0.5100, "mean": 3.3333, "variance": 7.7778}
     },
     {
         "Dist name": "Geometric Dist",
-        "Case 2": "Positive",
+        "Case": "Positive",
         "parameters": {"_p": 0.5, "_q": 0.5, "_k": 3},
-        "expected": {"pmf": 0.0625, "cdf": 0.9375, "mean": 2.0000, "variance": 2.0000}
+        "expected": {"pmf": 0.1250, "cdf": 0.8750, "mean": 2.0000, "variance": 2.0000}
     },
     {
         "Dist name": "Geometric Dist",
-        "Case 3": "Positive",
+        "Case": "Positive",
         "parameters": {"_p": 0.7, "_q": 0.3, "_k": 4},
-        "expected": {"pmf": 0.00567, "cdf": 0.99757, "mean": 1.4286, "variance": 0.8571}
+        "expected": {"pmf": 0.0189, "cdf": 0.9919, "mean": 1.4286, "variance": 0.6122}
     },
     {
         "Dist name": "Geometric Dist",
-        "Case 4": "Negative",
+        "Case": "Negative",
         "parameters": {"_p": -0.3, "_q": 1.3, "_k": 2},
         "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "Geometric Dist",
-        "Case 5": "Negative",
+        "Case": "Negative",
         "parameters": {"_p": 0.5, "_q": 0.5, "_k": -1},
         "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "Geometric Dist",
-        "Case 6": "Negative",
+        "Case": "Negative",
         "parameters": {"_p": 1.5, "_q": -0.5, "_k": 2},
+        "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "Geometric Dist",
+        "Case": "Negative",
+        "parameters": {"_p": "hello", "_q": -0.5, "_k": 2},
+        "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "Geometric Dist",
+        "Case": "Negative",
+        "parameters": {"_p": 0.5, "_q": "-0.5", "_k": 2},
+        "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "Geometric Dist",
+        "Case": "Negative",
+        "parameters": {"_p": 0.2, "_q": 0.8, "_k": false},
+        "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
+    },
+    {
+        "Dist name": "Geometric Dist",
+        "Case": "Negative",
+        "parameters": {"_p": [1, "1"], "_q": -0.5, "_k": 2},
         "expected": {"pmf": null, "cdf": null, "mean": null, "variance": null}
     }
 ]

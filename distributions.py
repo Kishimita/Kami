@@ -209,7 +209,7 @@ class PoissonDist:
         return f"{type(self).__name__} with values: (λ={self._λ}, k={self._k})"
     
 class GeometricDist:
-    "Geometric distribution of a random variable"
+    "Discrete Geometric distribution of a random variable"
     # https://en.wikipedia.org/wiki/Geometric_distribution
 
     __slots__ = {'_p': "probability of success in each trial", 
@@ -217,9 +217,22 @@ class GeometricDist:
                  '_k': "number of trials until the first success"}
     
     def __init__(self, p, q, k) -> None:
-        """Make an instance of a Geometric Distribution, where the geometric distribution describes
-        the number of trials it takes to achieve the first success in a sequence of independent Bernoulli trials."""
+        """
+        ## Description
+        Make an instance of a Discrete Geometric Distribution, where the geometric distribution describes
+        the number of trials it takes to achieve the first success in a sequence of independent Bernoulli trials.
         
+        ## Parameters
+        - p: float
+            probability of success in each trial
+        - q: float
+            probability of failure in each trial
+        - k: int
+            number of trials until the first success
+        
+        ## Returns
+        None, it creates an instance of the Geometric Distribution class.
+        """
         if p < 0 or p > 1 or q < 0 or q > 1:
             raise ValueError("p must be between 0 and 1 and q must be between 0 and 1")
         elif(q == None or p == None):
@@ -238,7 +251,19 @@ class GeometricDist:
 
     @classmethod
     def from_samples(cls, data, k) -> "GeometricDist":
-        "Make a geometric distribution instance from sample data."
+        """
+        ## Description
+        Make a discrete geometric distribution instance from sample data.
+        
+        ## Parameters
+        - data: list
+            sample data
+        - k: int
+            number of trials until the first success
+        
+        ## Returns
+        None, it creates an instance of the Geometric Distribution class.
+        """
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and k must be greater than or equal to 0")
         elif k < 0:
@@ -250,34 +275,89 @@ class GeometricDist:
         return cls(p, q, k)
     
     def pmf(self: "GeometricDist") -> float:
-        """We write X ~ G(p). The probability of getting exactly k failures before the first success in a sequence of Bernoulli trials is given by the probability mass function: 
-        P(X = k) = q^k * p"""
-        return (self._q ** self._k) * self._p
+        """
+        ## Descriptions
+        We write X ~ G(p). describes when the first success in an infinite sequence of independent and identically 
+        distributed Bernoulli trials occurs. The probability mass function is given P(X = k) = q^(k-1) * p
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting exactly k failures before the first success in a sequence of Bernoulli trials.
+        """
+        return (self._q ** (self._k - 1)) * self._p
 
     def cdf(self: "GeometricDist") -> float:
-        """The cumulative distribution function is the probability of getting k or fewer failures before the first success in a sequence of Bernoulli trials."""
-        cumulative_prob = 0
-        for i in range(self._k + 1):
-            self._k = i
-            cumulative_prob += ((self._q)**(self._k-1)) * self._p
+        """
+        ## Description
+        The cumulative distribution function is the probability of getting success with k or fewer tirals.
+        P(X ≤ k) = 1 - (q)^(floor(x)) for x>=1, for x<1, P(X ≤ k) = 0  .
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting k or fewer failures before the first success in a sequence of Bernoulli trials.
+        """
+        if self._k >= 1:
+            cumulative_prob = 1 - self._q**(math.floor(self._k))
+        else:  
+            cumulative_prob = 0
         return cumulative_prob
 
     @property
     def mean(self: "GeometricDist") -> float:
-        """The mean of the geometric distribution is given by the formula: E(X) = 1 / p"""
+        """
+        ## Description
+        The mean of the geometric distribution is given by the formula: E(X) = 1 / p
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the mean of the geometric distribution.
+        """
         return 1 / self._p
     
     @property
     def variance(self: "GeometricDist") -> float:
-        """The variance of the geometric distribution is given by the formula: Var(X) = q / p^2"""
-        return self._q / (self._p ** 2)
+        """
+        ## Description
+        The variance of the geometric distribution is given by the formula: Var(X) = q / p^2
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the variance of the geometric distribution.
+        """
+        return (self._q) / (self._p ** 2)
     
     @property
     def std_dev(self: "GeometricDist") -> float:
-        """The standard deviation of the geometric distribution is given by the formula: σ = sqrt(q / p^2)"""
+        """
+        ## Description
+        The standard deviation of the geometric distribution is given by the formula: σ = sqrt(q / p^2)
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the standard deviation of the geometric distribution.
+        """
         return math.sqrt(self.variance)
     
     def __repr__(self: "GeometricDist") -> str:
+        """
+        ## Description
+        The string representation of the Geometric Distribution class.
+
+        ## Parameters
+        None
+
+        ## Returns
+        str, the string representation of the Geometric Distribution class.
+        """
         return f"{type(self).__name__} with values: (p={self._p}, q={self._q}, k={self._k})"
     
 class UniformDist:
@@ -336,13 +416,13 @@ class UniformDist:
     
     def pmf(self: "UniformDist") -> float:
         """We write X ~ U(a, b). The probability mass function(a.k.a probability density function) of a uniform distribution is given by the formula: 
-        f(x) = 1 / n"""
+        f(x) = 1 / (n)"""
         return 1 / (self._n)
 
     def cdf(self: "UniformDist") -> float:
         """The cumulative distribution function is the probability of getting a value less than or equal to x in a uniform distribution.
-        f(x) = (x - a + 1) / n"""
-        return (self._x - self._a + 1) / (self._n)
+        f(x) = (floor[x] - a + 1) / n"""
+        return (math.floor(self._x) - self._a + 1) / (self._n)
     
     @property
     def mean(self: "UniformDist") -> float:
@@ -370,9 +450,21 @@ class ExponentialDist:
                  '_x': "random variable"}
     
     def __init__(self, λ, x) -> None:
-        """The exponential distribution in R Language is the probability distribution of the time between events in a Poisson point 
+        """
+        ## Description
+        The exponential distribution in R Language is the probability distribution of the time between events in a Poisson point 
         process, i.e., a process in which events occur continuously and independently at a constant average rate.
-        Describes the probability of a random variable taking on a value within a given range, given that the rate of success is λ."""
+        Describes the probability of a random variable taking on a value within a given range, given that the rate of success is λ.
+        
+        ## Parameters
+        - λ: float
+            rate of success
+        - x: float
+            random variable
+        
+        ## Returns
+        None, it creates an instance of the Exponential Distribution class.
+        """
         if λ < 0 or x < 0:
             raise ValueError("λ and x must be greater than or equal to 0")
         elif type(λ) == bool or type(x) == bool: 
@@ -382,7 +474,17 @@ class ExponentialDist:
     
     @classmethod
     def from_samples(cls, data, x) -> "ExponentialDist":
-        "Make an exponential distribution instance from sample data."
+        """
+        ## Description
+        Make an exponential distribution instance from sample data.
+
+        ## Parameters
+        - data: list
+            sample data
+        
+        ## Returns
+        None, it creates an instance of the Exponential Distribution class.
+        """
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
         elif x < 0:
@@ -392,32 +494,87 @@ class ExponentialDist:
         λ = 1 / mean(data)
         return cls(λ, x)
     
-    def pmf(self: "ExponentialDist") -> float:
-        """We write X ~ Exp(λ). The probability of getting a value less than or equal to x in an exponential distribution is given by the formula: 
-        f(x) = λ * e^(-λ * x)"""
+    def pdf(self: "ExponentialDist") -> float:
+        """
+        ## Description
+        We write X ~ Exp(λ). The probability of getting a value less than or equal to x in an exponential distribution is given by the
+        formula: f(x) = λ * e^(-λ * x)
+
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting a value less than or equal to x in an exponential distribution.
+        """
         return self._λ * math.exp(-self._λ * self._x)
     
     def cdf(self: "ExponentialDist") -> float:
-        """The cumulative distribution function is the probability of getting a value less than or equal to x in an exponential distribution.
-        F(x) = 1 - e^(-λ * x)"""
+        """
+        ## Desciprtion
+        The cumulative distribution function is the probability of getting a value less than or equal to x in an exponential distribution.
+        F(x) = 1 - e^(-λ * x)
+
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting a value less than or equal to x in an exponential distribution.
+        """
         return 1 - math.exp(-self._λ * self._x)
     
     @property
     def mean(self: "ExponentialDist") -> float:
-        """The mean of the exponential distribution is given by the formula E(X) = 1 / λ"""
+        """
+        ## Description
+        The mean of the exponential distribution is given by the formula E(X) = 1 / λ
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the mean of the exponential distribution.
+        """
         return 1 / self._λ
     
     @property
     def variance(self: "ExponentialDist") -> float:
-        """The variance of the exponential distribution is given by the formula Var(X) = 1 / λ^2"""
+        """
+        ## Description
+        The variance of the exponential distribution is given by the formula Var(X) = 1 / λ^2
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the variance of the exponential distribution.
+        """
         return 1 / (self._λ ** 2)
     
     @property
     def std_dev(self: "ExponentialDist") -> float:
-        """The standard deviation of the exponential distribution is given by the formula σ = sqrt(1 / λ^2)"""
+        """
+        ## Description
+        The standard deviation of the exponential distribution is given by the formula σ = sqrt(1 / λ^2)
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the standard deviation of the exponential distribution.
+        """
         return math.sqrt(self.variance)
     
     def __repr__(self: "ExponentialDist") -> str:
+        """
+        ## Description
+        Create a string representation of the Exponential Distribution class.
+
+        ## Parameters
+        None
+
+        ## Returns
+        str, the string representation of the Exponential Distribution class.
+        """
         return f"{type(self).__name__} with values: (λ={self._λ}, x={self._x})"
 
 class NegativeBinomialDist:

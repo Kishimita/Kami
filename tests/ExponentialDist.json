@@ -4,8 +4,8 @@
         "Case": "Positive",
         "parameters": {"_λ": 2, "_x": 1},
         "expected": {
-            "pmf": 0.2706706,
-            "cdf": 0.8646647,
+            "pdf": 0.2707,
+            "cdf": 0.8647,
             "mean": 0.5,
             "variance": 0.25
         }
@@ -15,8 +15,8 @@
         "Case": "Positive",
         "parameters": {"_λ": 0.5, "_x": 3},
         "expected": {
-            "pmf": 0.1115651,
-            "cdf": 0.7768698,
+            "pdf": 0.1116,
+            "cdf": 0.7769,
             "mean": 2.0,
             "variance": 4.0
         }
@@ -26,8 +26,8 @@
         "Case": "Positive",
         "parameters": {"_λ": 1, "_x": 0.5},
         "expected": {
-            "pmf": 0.6065307,
-            "cdf": 0.3934693,
+            "pdf": 0.6065,
+            "cdf": 0.3935,
             "mean": 1.0,
             "variance": 1.0
         }
@@ -35,12 +35,12 @@
     {
         "Dist name" :"Exponential Dist",
         "Case": "Positive",
-        "parameters": {"_λ": 1, "_x": 1},
+        "parameters": {"_λ": 10.55, "_x": 6},
         "expected": {
-            "pmf": 0.3678794,
-            "cdf": 0.6321206,
-            "mean": 1.0,
-            "variance": 1.0
+            "pdf": 0.0000,
+            "cdf": 1.0000,
+            "mean": 0.0948,
+            "variance": 0.0090
         }
     },
     {
@@ -48,8 +48,8 @@
         "Case": "Positive",
         "parameters": {"_λ": 55, "_x": 3},
         "expected": {
-            "pmf": 0.0,
-            "cdf": 0.0,
+            "pdf": 0.0,
+            "cdf": 1.0,
             "mean": 0.0181818,
             "variance": 0.0003312
         }
@@ -59,7 +59,7 @@
         "Case": "Negative",
         "parameters": {"_λ": 2, "_x": -1},
         "expected": {
-            "pmf": 0,
+            "pdf": 0,
             "cdf": 0,
             "mean": 0.5,
             "variance": 0.25
@@ -70,7 +70,7 @@
         "Case": "Negative",
         "parameters": {"_λ": -1, "_x": 1},
         "expected": {
-            "pmf": null,
+            "pdf": null,
             "cdf": null,
             "mean": null,
             "variance": null
@@ -81,7 +81,7 @@
         "Case": "Negative",
         "parameters": {"_λ": "Hello", "_x": 1},
         "expected": {
-            "pmf": null,
+            "pdf": null,
             "cdf": null,
             "mean": null,
             "variance": null
@@ -92,7 +92,7 @@
         "Case": "Negative",
         "parameters": {"_λ": -10, "_x": 1},
         "expected": {
-            "pmf": null,
+            "pdf": null,
             "cdf": null,
             "mean": null,
             "variance": null
@@ -103,7 +103,7 @@
         "Case": "Negative",
         "parameters": {"_λ": 10, "_x": "Hello"},
         "expected": {
-            "pmf": null,
+            "pdf": null,
             "cdf": null,
             "mean": null,
             "variance": null
@@ -114,7 +114,7 @@
         "Case": "Negative",
         "parameters": {"_λ": true, "_x": -1},
         "expected": {
-            "pmf": 0,
+            "pdf": 0,
             "cdf": 0,
             "mean": 0.1,
             "variance": 0.01
@@ -125,7 +125,7 @@
         "Case": "Negative",
         "parameters": {"_λ": 1, "_x": true},
         "expected": {
-            "pmf": 0,
+            "pdf": 0,
             "cdf": 0,
             "mean": 0.1,
             "variance": 0.01
@@ -136,7 +136,7 @@
         "Case": "Negative",
         "parameters": {"_λ": [1, 0.00001, "Hello"], "_x": true},
         "expected": {
-            "pmf": 0,
+            "pdf": 0,
             "cdf": 0,
             "mean": 0.1,
             "variance": 0.01
