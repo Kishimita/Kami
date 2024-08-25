@@ -1,6 +1,6 @@
 import json
 import unittest
-from distributions import BinomialDist
+from KishStats_API.distributions import BinomialDist
 
 class BinomialDist_Test(unittest.TestCase):
     def __init__(self):
