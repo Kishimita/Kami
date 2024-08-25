@@ -1,6 +1,6 @@
 import math
-import random as rnd
 import sympy as sp
+import scipy.stats as sc
 from statistics import mean, variance
 
 class BinomialDist:
@@ -587,15 +587,34 @@ class NegativeBinomialDist:
                  '_k': "number of trials until the rth success"}
     
     def __init__(self, r, p, q, k) -> None:
-        """The negative binomial distribution describes the number of trials(failures) it takes to achieve the rth success in a sequence of independent Bernoulli trials.
-        Make an instance of a Negative Binomial Distribution, where the negative binomial distribution describes the probability of a random variable taking on a value within a given range."""
+        """
+        ## Description
+        The negative binomial distribution describes the number of trials(failures) it takes to achieve the rth success in a sequence 
+        of independent Bernoulli trials. Make an instance of a Negative Binomial Distribution, where the negative binomial distribution 
+        describes the probability of a random variable taking on a value within a given range.
+        
+        ## Parameters
+        - r: int
+            number of successes
+        - p: float
+            probability of success in each trial
+        - q: float
+            probability of failure in each trial
+        - k: int
+            number of trials until the rth success
+        
+        ## Returns
+        None, it creates an instance of the Negative Binomial Distribution class.
+        """
         if r < 0 or p < 0 or p > 1 or q < 0 or q > 1 or k < 0:
             raise ValueError("r, p, q, and k must be greater than or equal to 0")
         elif(q == None or p == None):
             q = 1 - p
             p = 1 - q
-        elif (1-p != q):
+        elif (round(1-p, 2) != round(q, 2)):
             raise ValueError("p and q must be complements of each other")
+        elif isinstance(r, bool) or isinstance(p, bool) or isinstance(q, bool) or isinstance(k, bool):
+            raise ValueError("r, p, q, and k must be integers or floats")
         
         self._r = int(r)
         self._p = float(p)
@@ -604,7 +623,21 @@ class NegativeBinomialDist:
 
     @classmethod
     def from_samples(cls, data, r, k) -> "NegativeBinomialDist":
-        "Make a negative binomial distribution instance from sample data."
+        """
+        ## Description
+        Make a negative binomial distribution instance from sample data.
+
+        ## Parameters
+        - data: list
+            sample data
+        - r: int
+            number of successes
+        - k: int
+            number of trials until the rth success
+        
+        ## Returns
+        None, it creates an instance of the Negative Binomial Distribution class
+        """
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and k must be greater than or equal to 0")
         elif k < 0:
@@ -616,38 +649,91 @@ class NegativeBinomialDist:
         return cls(r, p, q, k)
     
     def pmf(self: "NegativeBinomialDist") -> float:
-        """We write X ~ NB(r, p). The probability of getting exactly k failures before the rth success in a sequence 
-        of Bernoulli trials is given by the probability mass function: P(X = k) = C(k + r - 1, r - 1) * p^r * q^k"""
-        return math.comb(self._k + self._r - 1, self._r - 1) * (self._p ** self._r) * (self._q ** self._k)
+        """
+        ## Description
+        We write X ~ NB(r, p). The probability of getting exactly k failures before the rth success in a sequence 
+        of Bernoulli trials is given by the probability mass function: P(X = k) = C(k + r - 1, r) * p^r * q^k
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting exactly k failures before the rth success in a sequence of Bernoulli trials.
+        """
+        return math.comb(self._k + self._r - 1, self._k) * (self._p ** self._r) * (self._q ** self._k)
     
     def cdf(self: "NegativeBinomialDist") -> float:
-        """The cumulative distribution function is the probability of getting k or fewer failures before the rth success 
-        in a sequence of Bernoulli trials. X~NB(r, p). It is given by the formula: P(X ≤ k) = Ip(r, k+1)"""
-        return self.I_p(self._r, self._k + 1, self._p)
-    
-    @classmethod
-    def I_p(r: float, k: float, x: float) -> float:
-        """The incomplete regularized beta function is given by the formula: I_p(a, b, x) = 1 - I_(1-p)(k, r, 1-x). 
-        Where r is the number of successes, k is the number of trials until the rth success, and x is the probability 
-        of success in each trial."""
-        return 1 - sp.betainc(k, r, 1 - x)
+        """
+        ## Description
+        The cumulative distribution function is the probability of getting k or fewer failures before the rth success 
+        in a sequence of Bernoulli trials. X~NB(r, p). It is given by the formula: P(X ≤ k) = Ip(r, k+1)
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting k or fewer failures before the rth success in a sequence of Bernoulli trials.
+        """
+        cumulative_prob = 0
+        for i in range(self._k+1):
+            self._k = i
+            cumulative_prob += self.pmf()
+        return cumulative_prob
     
     @property
     def mean(self: "NegativeBinomialDist") -> float:
-        """The mean of the negative binomial distribution is given by the formula E(X) = r / p"""
-        return self._r / self._p
+        """
+        ## Description
+        The mean of the negative binomial distribution is given by the formula E(X) = (r * q)/ p
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the mean of the negative binomial distribution.
+        """
+        return (self._r * self._q) / self._p
     
     @property
     def variance(self: "NegativeBinomialDist") -> float:
-        """The variance of the negative binomial distribution is given by the formula Var(X) = r * q / p^2"""
-        return self._r * self._q / (self._p ** 2)
+        """
+        ## Desciprtion
+        The variance of the negative binomial distribution is given by the formula Var(X) = r * q / p^2
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the variance of the negative binomial distribution.
+        """
+        return (self._r * self._q )/ (self._p ** 2)
     
     @property
     def std_dev(self: "NegativeBinomialDist") -> float:
-        """The standard deviation of the negative binomial distribution is given by the formula σ = sqrt(r * q / p^2)"""
+        """
+        ## Description
+        The standard deviation of the negative binomial distribution is given by the formula σ = sqrt(r * q / p^2)
+        
+        ## Parameters
+        None   
+
+        ## Returns
+        float, the standard deviation of the negative binomial distribution.
+        """
         return math.sqrt(self.variance)
     
     def __repr__(self: "NegativeBinomialDist") -> str:
+        """
+        ## Description
+        The string representation of the Negative Binomial Distribution class.
+
+        ## Parameters
+        None
+
+        ## Returns
+        str, the string representation of the Negative Binomial Distribution class.
+        """
+        
         return f"{type(self).__name__} with values: (r={self._r}, p={self._p}, q={self._q}, k={self._k})"
     
 class StudentDist:
@@ -658,17 +744,44 @@ class StudentDist:
                  '_x': "random variable"}
     
     def __init__(self, ν, x) -> None:
-        """The Student's t-distribution is a probability distribution that is used to estimate the mean of a normally distributed population 
-        when the sample size is small and the population standard deviation is unknown.
-        Make an instance of a Student's t-distribution, where the Student's t-distribution describes the probability of a random variable taking on a value within a given range."""
+        """
+        ## Description
+        The Student's t-distribution is a continuous probability distribution that is used to estimate the mean of a normally distributed population 
+        when the sample size is small and the population standard deviation is unknown. Make an instance of a Student's 
+        t-distribution, where the Student's t-distribution describes the probability of a random variable taking on a 
+        value within a given range.
+        
+        ## Parameters
+        - ν: float
+            degrees of freedom
+        - x: float
+            random variable
+        
+        ## Returns
+        None, it creates an instance of the Student's t-distribution class.
+        """
         if ν < 0 or x < 0:
             raise ValueError("ν and x must be greater than or equal to 0")
+        if isinstance(ν, bool) or isinstance(x, bool):
+            raise ValueError("ν and x must be integers or floats")
         self._ν = float(ν)
         self._x = float(x)
     
     @classmethod
     def from_samples(cls, data, x) -> "StudentDist":
-        "Make a student's t-distribution instance from sample data."
+        """
+        ## Description
+        Make a student's t-distribution instance from sample data.
+        
+        ## Parameters
+        - data: list
+            sample data
+        - x: float
+            random variable
+        
+        ## Returns
+        None, it creates an instance of the Student's t-distribution class.
+        """
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
         elif x < 0:
@@ -678,25 +791,63 @@ class StudentDist:
         ν = len(data) - 1
         return cls(ν, x)
     
-    def pmf(self: "StudentDist") -> float:
-        """We write X ~ t(ν). The probability of getting a value less than or equal to x in a student's t-distribution is given by the formula: 
-        f(x) = Γ((ν + 1) / 2) / (sqrt(πν) * Γ(ν / 2)) * (1 + x^2 / ν)^(-(ν + 1) / 2)"""
+    def pdf(self: "StudentDist") -> float:
+        """
+        ## Description
+        We write X ~ t(ν). The probability of getting a value less than or equal to x in a student's t-distribution is given by the formula: 
+        f(x) = Γ((ν + 1) / 2) / (sqrt(πν) * Γ(ν / 2)) * (1 + x^2 / ν)^(-(ν + 1) / 2)
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting a value less than or equal to x in a student's t-distribution.
+        """
         return (sp.gamma((self._ν + 1) / 2) / (math.sqrt(math.pi * self._ν) * sp.gamma(self._ν / 2))) * (1 + (self._x ** 2) / self._ν) ** (-(self._ν + 1) / 2)
     
     def cdf(self: "StudentDist") -> float:
-        """The cumulative distribution function is the probability of getting a value less than or equal to x in a student's t-distribution.
-        F(x) = 1 - 0.5 * [I_{x(t}(ν / 2, 1 / 2)]"""
-        return 1 - (0.5 * sp.betainc(self._ν / 2, 1 / 2))
+        """
+        ## Description
+        The cumulative distribution function is the probability of getting a value less than or equal to x in a student's 
+        t-distribution. F(x) = 1 - 0.5 * [I_{x(t}(ν / 2, 1 / 2)]
+        
+        ## Parameters
+        None
+        
+        ## Returns 
+        float, the probability of getting a value less than or equal to x in a student's t-distribution.
+        """
+        return sc.t.cdf(self._x, self._ν)
     
     @property
     def mean(self: "StudentDist") -> float:
-        """The mean of the student's t-distribution is given by the formula E(X) = 0"""
+        """
+        ## Description
+        The mean of the student's t-distribution is given by the formula E(X) = 0
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the mean of the student's t-distribution.
+        """
         if self._ν > 1:
             return 0
+        elif self._ν <= 1:
+            return math.nan
     
     @property
     def variance(self: "StudentDist") -> float:
-        """The variance of the student's t-distribution is given by the formula Var(X) = ν / (ν - 2)"""
+        """
+        ## Description
+        The variance of the student's t-distribution is given by the formula Var(X) = ν / (ν - 2)
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the variance of the student's t-distribution.
+        """
         if self._ν > 2:
             return self._ν / (self._ν - 2)
         elif self._ν < 2 and self._ν > 1:
@@ -707,10 +858,29 @@ class StudentDist:
     
     @property
     def std_dev(self: "StudentDist") -> float:
-        """The standard deviation of the student's t-distribution is given by the formula σ = sqrt(ν / (ν - 2))"""
+        """
+        ## Description
+        The standard deviation of the student's t-distribution is given by the formula σ = sqrt(ν / (ν - 2))
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the standard deviation of the student's t-distribution.
+        """
         return math.sqrt(self.variance)
     
     def __repr__(self: "StudentDist") -> str:
+        """
+        ## Description
+        The string representation of the Student's t-distribution class.
+
+        ## Parameters
+        None
+
+        ## Returns
+        str, the string representation of the Student's t-distribution class.
+        """
         return f"{type(self).__name__} with values: (ν={self._ν}, x={self._x})"
     
 class FDist:
@@ -722,51 +892,114 @@ class FDist:
                  '_x': "random variable"}
     
     def __init__(self, ν1, ν2, x) -> None:
-        """The F-distribution with d1 and d2 degrees of freedom is the distribution of the ratio of two independent chi-squared random variables,
-        each divided by its degrees of freedom. The F-distribution is a probability distribution that is used in the analysis of variance tests.
-        Make an instance of an F-distribution, where the F-distribution describes the probability of a random variable 
-        taking on a value within a given range."""
+        """
+        ## Description
+        The F-distribution with d1 and d2 degrees of freedom is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom. The F-distribution is a probability distribution that is used in the analysis of variance tests. Make an instance of an F-distribution, where 
+        the F-distribution describes the probability of a random variable taking on a value within a given range.
+        
+        ## Parameters
+        - ν1: float
+            degrees of freedom of the numerator
+        - ν2: float
+            degrees of freedom of the denominator
+        - x: float
+            random variable
+        
+        ## Returns
+        None, it creates an instance of the F-distribution class.
+        """
         if ν1 < 0 or ν2 < 0 or x < 0:
             raise ValueError("ν1, ν2, and x must be greater than or equal to 0")
+        elif isinstance(ν1, bool) or isinstance(ν2, bool) or isinstance(x, bool):
+            raise ValueError("ν1, ν2, and x must be integers or floats")
         self._ν1 = float(ν1)
         self._ν2 = float(ν2)
         self._x = float(x)
     
     @classmethod
     def from_samples(cls, data, x) -> "FDist":
-        "Make an F-distribution instance from sample data."
+        """
+        ## Description
+        Make an F-distribution instance from sample data.
+
+        ## Parameters
+        - data: list
+            sample data
+        - x: float
+            random variable
+        
+        ## Returns
+        None, it creates an instance of the F-distribution class.
+        """
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
         elif x < 0:
             raise ValueError("x must be greater than or equal to 0")
         elif any(x < 0 for x in data):
             raise ValueError("sample data must contain values greater than or equal to 0")
+        elif isinstance(data, bool) or isinstance(x, bool):
+            raise ValueError("sample data and x must be integers or floats")
         ν1 = len(data) - 1
         ν2 = len(data) - 1
         return cls(ν1, ν2, x)
     
-    def pmf(self: "FDist") -> float:
-        """We write X ~ F(ν1, ν2). The probability of getting a value less than or equal to x in an F-distribution is given by the formula: 
-        f(x) = sqrt(((ν1 * x)^ν1 * (v2^v2)) / (ν1 * x + v2) ^(v1 + v2)) / (x * B(ν1 / 2, ν2 / 2))"""
+    def pdf(self: "FDist") -> float:
+        """
+        ## Description
+        We write X ~ F(ν1, ν2). The probability of getting a value less than or equal to x in an F-distribution is given by the formula: f(x) = sqrt(((ν1 * x)^ν1 * (v2^v2)) / (ν1 * x + v2) ^(v1 + v2)) / (x * B(ν1 / 2, ν2 / 2))
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting a value less than or equal to x in an F-distribution.
+        """
         return math.sqrt(((self._ν1 * self._x) ** self._ν1 * (self._ν2 ** self._ν2)) / 
                          ((self._ν1 * self._x + self._ν2) ** (self._ν1 + self._ν2))) / (self._x * sp.beta(self._ν1 / 2, self._ν2 / 2))
 
     def cdf(self: "FDist") -> float:
-        """The cumulative distribution function is the probability of getting a value less than or equal to x in an F-distribution.
-        F(x) = I_{(v1 * x) / (v1 * x + v2)}(ν1 / 2, ν2 / 2)"""
-        return sp.betainc(self._ν1 / 2, self._ν2 / 2, (self._ν1 * self._x) / (self._ν1 * self._x + self._ν2), 0)
-    
+        """
+        ## Description
+        The cumulative distribution function is the probability of getting a value less than or equal to x in an F-distribution. F(x) = I_{(v1 * x) / (v1 * x + v2)}(ν1 / 2, ν2 / 2). Use scipys cdf function to calculate the cumulative distribution function.
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the probability of getting a value less than or equal to x in an F-distribution.
+        """
+        return sc.f.cdf(self._x, self._ν1, self._ν2)
     @property
     def mean(self: "FDist") -> float:
-        """The mean of the F-distribution is given by the formula E(X) = ν2 / (ν2 - 2)"""
+        """
+        ## Descritpion
+        The mean of the F-distribution is given by the formula E(X) = ν2 / (ν2 - 2)
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the mean of the F-distribution.
+        """
         if self._ν2 > 2:
             return self._ν2 / (self._ν2 - 2)
+        else:
+            return math.nan
         
     @property
     def variance(self: "FDist") -> float:
-        """The variance of the F-distribution is given by the formula Var(X) = (2ν2^2 * (ν1 + ν2 - 2)) / (ν1 * (ν2 - 2)^2 * (ν2 - 4))"""
+        """
+        ## Description
+        The variance of the F-distribution is given by the formula Var(X) = (2ν2^2 * (ν1 + ν2 - 2)) / (ν1 * (ν2 - 2)^2 * (ν2 - 4))
+        
+        ## Parameters   
+        None
+
+        ## Returns
+        float, the variance of the F-distribution.
+        """
         if self._ν2 > 4:
-            return (2 * self._ν2 ** 2 * (self._ν1 + self._ν2 - 2)) / (self._ν1 * (self._ν2 - 2) ** 2 * (self._ν2 - 4))
+            return ((2 * (self._ν2 ** 2)) * (self._ν1 + self._ν2 - 2)) / (self._ν1 * ((self._ν2 - 2) ** 2) * (self._ν2 - 4))
         elif self._ν2 < 4 and self._ν2 > 2:
             return math.inf
         else:
@@ -774,10 +1007,30 @@ class FDist:
     
     @property
     def std_dev(self: "FDist") -> float:
-        """The standard deviation of the F-distribution is given by the formula σ = sqrt((2ν2^2 * (ν1 + ν2 - 2)) / (ν1 * (ν2 - 2)^2 * (ν2 - 4))"""
+        """
+        ## Description
+        The standard deviation of the F-distribution is given by the formula σ = sqrt((2ν2^2 * (ν1 + ν2 - 2)) / (ν1 * (ν2 - 2)^2 * (ν2 - 4))
+        
+        ## Parameters
+        None
+
+        ## Returns
+        float, the standard deviation of the F-distribution.
+        """
         return math.sqrt(self.variance)
     
     def __repr__(self: "FDist") -> str:
+        """
+        ## Description
+        The string representation of the F-distribution class.
+
+        ## Parameters
+        None
+
+        ## Returns
+        str, the string representation of the F-distribution class.
+        """
+        
         return f"{type(self).__name__} with values: (ν1={self._ν1}, ν2={self._ν2}, x={self._x})"
 
 class GammaDist:
@@ -808,8 +1061,10 @@ class GammaDist:
         - None, it initializes the Gamma Distribution instance.
         
         """
-        if α < 0 or β < 0 or x < 0:
-            raise ValueError("α, β, and x must be greater than or equal to 0")
+        if α <= 0 or β <= 0 or x <= 0:
+            raise ValueError("α, β, and x must be greater than 0")
+        elif isinstance(α, bool) or isinstance(β, bool) or isinstance(x, bool):
+            raise ValueError("α, β, and x must be integers or floats")
         self._α = float(α)
         self._β = float(β)
         self._x = float(x)
@@ -819,23 +1074,27 @@ class GammaDist:
         "Make a gamma distribution instance from sample data."
         if(len(data) <= 0):
             raise ValueError("sample data must contain at least one value and x must be greater than or equal to 0")
-        elif x < 0:
-            raise ValueError("x must be greater than or equal to 0")
+        elif x <= 0:
+            raise ValueError("x must be greater than 0")
         elif any(x < 0 for x in data):
             raise ValueError("sample data must contain values greater than or equal to 0")
+        elif isinstance(data, bool) or isinstance(x, bool):
+            raise ValueError("sample data and x must be integers or floats")
         α = mean(data) ** 2 / variance(data)
         β = variance(data) / mean(data)
         return cls(α, β, x)
     
-    def pmf(self: "GammaDist") -> float:
+    def pdf(self: "GammaDist") -> float:
         """We write X ~ Γ(α, β). The probability of getting a value less than or equal to x in a gamma distribution is given by the formula: 
         f(x) = (β^α * x^(α - 1) * e^(-β * x)) / Γ(α)"""
-        return (self._β ** self._α * self._x ** (self._α - 1) * math.exp(-self._β * self._x)) / sp.gamma(self._α)
+        return (((self._β ** self._α) * (self._x ** (self._α - 1)) * math.exp(-self._β * self._x))) / (sp.gamma(self._α))
     
     def cdf(self: "GammaDist") -> float:
         """The cumulative distribution function is the probability of getting a value less than or equal to x in a gamma distribution.
-        F(x) = (1 / Γ(α)) * γ(α, β * x)"""
-        return (1 / sp.gamma(self._α)) * sp.gammainc(self._α, self._β * self._x)
+        F(x) = (1 / Γ(α)) * γ(α, β * x)
+        Using scipys cdf function to calculate the cumulative distribution function.
+        """
+        return sc.gamma.cdf(self._x, self._α, scale=1/self._β)
     
     @property
     def mean(self: "GammaDist") -> float:

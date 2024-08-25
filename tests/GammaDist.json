@@ -1,49 +1,49 @@
 [
     {
         "Dist name": "GammaDist",
-        "Case 1": "Positive",
+        "Case": "Positive",
         "parameters": {"_α": 2, "_β": 1, "_x": 3},
         "expected": {"pdf": 0.1493612, "cdf": 0.8008517, "mean": 2, "variance": 2}
     },
     {
         "Dist name": "GammaDist",
-        "Case 2": "Positive",
+        "Case": "Positive",
         "parameters": {"_α": 5, "_β": 2, "_x": 4},
         "expected": {"pdf": 0.1145046, "cdf": 0.9003676, "mean": 2.5, "variance": 1.25}
     },
     {
         "Dist name": "GammaDist",
-        "Case 3": "Positive",
+        "Case": "Positive",
         "parameters": {"_α": 1, "_β": 0.5, "_x": 2},
         "expected": {"pdf": 0.1839397, "cdf": 0.6321206, "mean": 2, "variance": 4}
     },
     {
         "Dist name": "GammaDist",
-        "Case 4": "Positive",
+        "Case": "Positive",
         "parameters": {"_α": 3, "_β": 0.5, "_x": 1},
         "expected": {"pdf": 0.03790817, "cdf": 0.01438768, "mean": 6, "variance": 12}
     },
     {
         "Dist name": "GammaDist",
-        "Case 5": "Negative",
+        "Case": "Negative",
         "parameters": {"_α": -2, "_β": 1, "_x": 3},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "GammaDist",
-        "Case 6": "Negative",
-        "parameters": {"_α": 2, "_β": -1, "_x": 3},
+        "Case": "Negative",
+        "parameters": {"_α": 2, "_β": "invalid", "_x": 3},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "GammaDist",
-        "Case 7": "Negative",
-        "parameters": {"_α": 2, "_β": 1, "_x": "invalid"},
+        "Case": "Negative",
+        "parameters": {"_α": true, "_β": 1, "_x": 5},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "GammaDist",
-        "Case 8": "Negative",
+        "Case": "Negative",
         "parameters": {"_α": 2, "_β": 1, "_x": [1, 2]},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     }

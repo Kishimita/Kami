@@ -1,41 +1,47 @@
 [
     { "Dist name": "NegativeBinomial",
-      "Case 1": "Positive",
-      "parameters": { "_r": 2, "_p": 0.5, "_q": 0.5, "_k": 3 },
-      "expected": { "pmf": 0.125, "cdf": 0.8125, "mean": 2.0, "variance": 4.0 } },
+      "Case": "Positive",
+      "parameters": { "_r": 2.0, "_p": 0.5, "_q": 0.5, "_k": 3.0},
+      "expected": { "pmf": 0.125, "cdf": 0.8125, "mean": 2.0, "variance": 4.0}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 2": "Positive",
+      "Case": "Positive",
       "parameters": { "_r": 3, "_p": 0.7, "_q": 0.3, "_k": 5 },
-      "expected": { "pmf": 0.01750329, "cdf": 0.9887078, "mean": 4.28571, "variance": 12.2449 } },
+      "expected": { "pmf": 0.0175, "cdf": 0.9887, "mean": 1.2857, "variance": 1.8367}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 3": "Positive",
-      "parameters": { "_r": 1, "_p": 0.8, "_q": 0.2, "_k": 4 },
-      "expected": { "pmf": 0.00128, "cdf": 0.99968, "mean": 0.25, "variance": 0.9375 } },
+      "Case": "Positive",
+      "parameters": { "_r": 1, "_p": 0.8, "_q": 0.2, "_k": 4},
+      "expected": { "pmf": 0.0013, "cdf": 0.9997, "mean": 0.25, "variance": 0.3125}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 4": "Positive",
+      "Case": "Positive",
       "parameters": { "_r": 4, "_p": 0.4, "_q": 0.6, "_k": 7 },
-      "expected": { "pmf": 0.08599634, "cdf": 0.7037157, "mean": 3.0, "variance": 12.0 } },
+      "expected": { "pmf": 0.0860, "cdf": 0.7037, "mean": 6.0, "variance": 15.0}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 5": "Negative",
+      "Case": "Negative",
       "parameters": { "_r": -2, "_p": 0.5, "_q": 0.5, "_k": 3 },
-      "expected": { "pmf": null, "cdf": null, "mean": null, "variance": null } },
+      "expected": { "pmf": null, "cdf": null, "mean": null, "variance": null}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 6": "Negative",
-      "parameters": { "_r": 2, "_p": 1.5, "_q": -0.5, "_k": 3 },
-      "expected": { "pmf": null, "cdf": null, "mean": null, "variance": null } },
+      "Case": "Negative",
+      "parameters": { "_r": 2, "_p": 1.5, "_q": -0.5, "_k": 3},
+      "expected": { "pmf": null, "cdf": null, "mean": null, "variance": null}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 7": "Negative",
-      "parameters": { "_r": 2, "_p": 0.5, "_q": 0.5, "_k": -1 },
-      "expected": { "pmf": 0, "cdf": 0, "mean": null, "variance": null } },
+      "Case": "Negative",
+      "parameters": { "_r": 2, "_p": "stt", "_q": 0.5, "_k": -1},
+      "expected": { "pmf": 0, "cdf": 0, "mean": null, "variance": null}},
 
     { "Dist name": "NegativeBinomial",
-      "Case 8": "Negative",
-      "parameters": { "_r": 3, "_p": 0.6, "_q": 0.4, "_k": 10 },
-      "expected": { "pmf": 0.00149485, "cdf": 0.9986847, "mean": 2.4, "variance": 6.0 } }
+      "Case": "Negative",
+      "parameters": { "_r": true, "_p": 0.6, "_q": 0.4, "_k": 10 },
+      "expected": { "pmf": 0.00149485, "cdf": 0.9986847, "mean": 2.4, "variance": 6.0 }},
+    {
+      "Dist name": "NegativeBinomial",
+      "Case": "Negative",
+      "parameters": { "_r": 2, "_p": 0.5, "_q": [1, "str"], "_k": 3 },
+      "expected": { "pmf": 0.125, "cdf": 0.8125, "mean": 2.0, "variance": 4.0 }
+    }
 ]

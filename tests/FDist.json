@@ -1,50 +1,50 @@
 [
     {
         "Dist name": "FDist",
-        "Case 1": "Positive",
+        "Case": "Positive",
         "parameters": {"_ν1": 10, "_ν2": 20, "_x": 2.5},
-        "expected": {"pdf": 0.06372449, "cdf": 0.9610964, "mean": 1.3333, "variance": 1.9325}
+        "expected": {"pdf": 0.063724, "cdf": 0.9459, "mean": 1.1111, "variance": 0.4321}
     },
     {
         "Dist name": "FDist",
-        "Case 2": "Positive",
+        "Case": "Positive",
         "parameters": {"_ν1": 5, "_ν2": 10, "_x": 1.0},
-        "expected": {"pdf": 0.4954798, "cdf": 0.5348806, "mean": 1.6667, "variance": 3.3333}
+        "expected": {"pdf": 0.4955, "cdf": 0.5349, "mean": 1.25, "variance": 1.3542}
     },
     {
         "Dist name": "FDist",
-        "Case 3": "Positive",
+        "Case": "Positive",
         "parameters": {"_ν1": 15, "_ν2": 30, "_x": 0.5},
-        "expected": {"pdf": 0.5883713, "cdf": 0.07868481, "mean": 1.5000, "variance": 0.9286}
+        "expected": {"pdf": 0.5884, "cdf": 0.0787, "mean": 1.0714, "variance": 0.8100}
     },
     {
         "Dist name": "FDist",
-        "Case 4": "Positive",
+        "Case": "Positive",
         "parameters": {"_ν1": 8, "_ν2": 12, "_x": 3.0},
-        "expected": {"pdf": 0.04552152, "cdf": 0.9575776, "mean": 1.3333, "variance": 1.5000}
+        "expected": {"pdf": 0.0455, "cdf": 0.9576, "mean": 1.2, "variance": 1.5000}
     },
     {
         "Dist name": "FDist",
-        "Case 5": "Negative",
+        "Case": "Negative",
         "parameters": {"_ν1": -5, "_ν2": 10, "_x": 1.0},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "FDist",
-        "Case 6": "Negative",
+        "Case": "Negative",
         "parameters": {"_ν1": 10, "_ν2": 20, "_x": "invalid"},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "FDist",
-        "Case 7": "Negative",
-        "parameters": {"_ν1": 10, "_ν2": 2, "_x": 1.0},
+        "Case": "Negative",
+        "parameters": {"_ν1": [true,"hello"], "_ν2": 2, "_x": 1.0},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     },
     {
         "Dist name": "FDist",
-        "Case 8": "Negative",
-        "parameters": {"_ν1": 10, "_ν2": 10, "_x": [1.0, 2.0]},
+        "Case": "Negative",
+        "parameters": {"_ν1": 10, "_ν2": true, "_x": [1.0, 2.0]},
         "expected": {"pdf": null, "cdf": null, "mean": null, "variance": null}
     }
 ]
