@@ -1,0 +1,109 @@
+# # [project]
+# # name="Kami"
+# # version="0.0.1"
+# # author="Kishimita"
+# # author_email="kishimita7@gmail.com"
+# # description="A simple package for statistical distributions."
+# # long_description="README.md"
+# # readme="README.md"
+# # requires_python = ">=3.8"
+# # url="www.github.com/kishimita/kami"
+# # license="MIT"
+# # classifiers = [
+# #     "Development Status :: 5 - Production/Stable",
+# #     "Programming Language :: Python :: 3",
+# #     "License :: OSI Approved :: MIT License",
+# #     "Operating System :: OS Independent"
+# # ]
+# # keywords="statistics distributions, probability, random variables, pdf, cdf, mean, variance, standard deviation"
+# # requires-python = ">=3.8"
+# # [project.urls]
+# # Homepage="www.github.com/kishimita/kami"
+# # Issues="www.github.com/kishimita/kami/issues"
+
+# [build-system]
+# requires = ["setuptools>=40.8.0", "wheel"]
+# build-backend = "setuptools.build_meta"
+
+# [project]
+# name = "KamiStats"
+# version = "0.0.8"
+# description = "A statistics library project"
+# readme = "README.md"
+# authors = [
+#     { name = "Kishimita", email = "kishimita7@gmail.com" }
+# ]
+# license = { text = "MIT" }
+# classifiers = [
+#     "Development Status :: 5 - Production/Stable",
+#     "Programming Language :: Python :: 3",
+#     "License :: OSI Approved :: MIT License",
+#     "Operating System :: OS Independent"
+# ]
+# keywords = ["statistics distributions, probability, random variables, pdf, cdf, mean, variance, standard deviation"]
+# requires-python = ">=3.8"
+# # other project configurations
+# dependencies = [
+#     "scipy>=1.13.0",
+#     "sympy>=1.13.0"
+# ]
+# # [tool.setuptools]
+# # packages = { find = { where = ["."], exclude = ["*.egg-info", "__pycache__"] } }
+# # include-package-data = true
+
+# [tool.setuptools.packages.find]
+# where = ["."]
+# exclude = ["*.egg-info", "__pycache__"]
+
+# [tool.setuptools.package-data]
+# "*" = ["*.txt", "*.md", "*.py", "test_scripts/*", "tests/*"]
+
+# [project.urls]
+# Homepage = "https://www.github.com/kishimita/kamistats"
+# Issues = "https://www.github.com/kishimita/kamistats/issues"
+
+# [project.scripts]
+# kami-cli = "KamiStats.main:main"
+
+
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "KamiStats"
+version = "0.0.9"
+description = "A statistics library project"
+readme = "README.md"
+authors = [
+    { name = "Kishimita", email = "kishimita7@gmail.com" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+keywords = [
+    "statistics distributions", 
+    "probability", 
+    "random variables", 
+    "pdf", 
+    "cdf", 
+    "mean", "variance", "ßstandard deviation"]
+requires-python = ">=3.8"
+# other project configurations
+dependencies = [
+    "scipy>=1.13.0",
+    "sympy>=1.13.0"
+]
+
+[project.urls]
+Homepage = "https://www.github.com/kishimita/kamistats"
+Issues = "https://www.github.com/kishimita/kamistats/issues"
+
+[project.scripts]
+kami-cli = "KamiStats.main:main"
+
+

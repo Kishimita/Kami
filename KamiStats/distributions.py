@@ -1250,7 +1250,7 @@ class ChiSquaredDist:
         return f"{type(self).__name__} with values: (df={self._df}, x={self._x})"
     
 def main():
-    """Main function to test the classes"""
+    print("""Main function to test the classes""")
     return None
 
 if __name__ == "__main__":

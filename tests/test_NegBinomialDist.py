@@ -1,18 +1,17 @@
-import json
+import json 
 import unittest
-from distributions import HypergeometricDist
+from KamiStats.KamiStats.distributions import NegativeBinomialDist
 
-class HypergeometricDist_Test(unittest.TestCase):
+class NegBinomialDist_Test(unittest.TestCase):
     def __init__(self):
         """Load the test data from the JSON file"""
-        with open('KishStats_API/tests/HyperGeo.json', 'r') as file:
+        with open('KamiStats/tests/NegativeBinomialDist.json', 'r') as file:
             self.data = json.load(file)
-        print(self.data)
-        self.positive_cases = [d for d in self.data if d.get("Case") == "Positive"]
-        self.negative_cases = [d for d in self.data if d.get("Case") == "Negative"]
+        self.positive_cases = [d for d in self.data if d["Case"] == "Positive"]
+        self.negative_cases = [d for d in self.data if d["Case"] == "Negative"]
 
     def test_newInstance_mean(self):
-        """Tests the mean property of the HypergeometricDist class"""
+        """Tests the mean property of the Negative BinomialDist class"""
         num_positive_cases = len(self.positive_cases)
         num_negative_cases = len(self.negative_cases)
         print("Number of positive test cases: ", num_positive_cases)
@@ -22,8 +21,7 @@ class HypergeometricDist_Test(unittest.TestCase):
 
         for d in self.positive_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.mean
                 self.assertIsNotNone(result)
                 count_successful_positive += 1
@@ -34,8 +32,7 @@ class HypergeometricDist_Test(unittest.TestCase):
 
         for d in self.negative_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.mean
                 self.assertIsNotNone(result)
             except Exception as e:
@@ -45,9 +42,9 @@ class HypergeometricDist_Test(unittest.TestCase):
         print("\n\n")
         print("Number of successful positive test cases: ", count_successful_positive)
         print("Number of successful negative test cases: ", count_successful_negative)
-    
+
     def test_newInstance_variance(self):
-        """Tests the variance property of the HypergeometricDist class"""
+        """Tests the variance property of the Negative BinomialDist class"""
         num_positive_cases = len(self.positive_cases)
         num_negative_cases = len(self.negative_cases)
         print("Number of positive test cases: ", num_positive_cases)
@@ -58,8 +55,7 @@ class HypergeometricDist_Test(unittest.TestCase):
 
         for d in self.positive_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.variance
                 self.assertIsNotNone(result)
                 count_successful_positive += 1
@@ -67,23 +63,22 @@ class HypergeometricDist_Test(unittest.TestCase):
                 print("Expected variance: ", d['expected']['variance'], "\n")
             except Exception as e:
                 print(f"\nError in positive test case: {d}, Error: {e}\n")
-
+        
         for d in self.negative_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.variance
                 self.assertIsNotNone(result)
             except Exception as e:
                 count_successful_negative += 1
                 print(f"Error in negative test case: {d}, Error: {e}\n")
-
+        
         print("\n\n")
         print("Number of successful positive test cases: ", count_successful_positive)
         print("Number of successful negative test cases: ", count_successful_negative)
-    
+
     def test_newInstance_pmf(self):
-        """Tests the pmf method of the HypergeometricDist class"""
+        """Tests the pmf method of the Negative BinomialDist class"""
         num_positive_cases = len(self.positive_cases)
         num_negative_cases = len(self.negative_cases)
         print("Number of positive test cases: ", num_positive_cases)
@@ -94,20 +89,18 @@ class HypergeometricDist_Test(unittest.TestCase):
 
         for d in self.positive_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.pmf()
                 self.assertIsNotNone(result)
                 count_successful_positive += 1
-                print(f"Test case: {d}, Class pmf: {round(result ,6)}")
+                print(f"Test case: {d}, Class pmf: {round(result, 6)}")
                 print("Expected pmf: ", d['expected']['pmf'], "\n")
-            except Exception as e: 
+            except Exception as e:
                 print(f"\nError in positive test case: {d}, Error: {e}\n")
         
         for d in self.negative_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.pmf()
                 self.assertIsNotNone(result)
             except Exception as e:
@@ -119,7 +112,7 @@ class HypergeometricDist_Test(unittest.TestCase):
         print("Number of successful negative test cases: ", count_successful_negative)
     
     def test_newInstance_cdf(self):
-        """Tests the cdf method of the HypergeometricDist class"""
+        """Tests the cdf method of the Negative BinomialDist class"""
         num_positive_cases = len(self.positive_cases)
         num_negative_cases = len(self.negative_cases)
         print("Number of positive test cases: ", num_positive_cases)
@@ -130,8 +123,7 @@ class HypergeometricDist_Test(unittest.TestCase):
 
         for d in self.positive_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.cdf()
                 self.assertIsNotNone(result)
                 count_successful_positive += 1
@@ -142,8 +134,7 @@ class HypergeometricDist_Test(unittest.TestCase):
         
         for d in self.negative_cases:
             try:
-                dist_instance = HypergeometricDist(d['parameters']['_N'], d['parameters']['_n'], 
-                                                   d['parameters']['_K'], d['parameters']['_k'])
+                dist_instance = NegativeBinomialDist(d['parameters']['_r'], d['parameters']['_p'], d['parameters']['_q'], d['parameters']['_k'])
                 result = dist_instance.cdf()
                 self.assertIsNotNone(result)
             except Exception as e:
@@ -153,49 +144,42 @@ class HypergeometricDist_Test(unittest.TestCase):
         print("\n\n")
         print("Number of successful positive test cases: ", count_successful_positive)
         print("Number of successful negative test cases: ", count_successful_negative)
-
+    
 
 def main():
-    test_instance = HypergeometricDist_Test()
-    # print(25 * " ~%~")
-    # print("\n\n\t\t\t\tTesting ChiSquaredDist Class mean\n\n")
-    # print(25 * " ~%~")
-    # print(test_instance.test_newInstance_mean())
-    # print(25 * " ~%~")
-    # print("\n\n\t\t\t\tEnd of Testing ChiSquaredDist Class mean\n\n")
-    # print(25 * " ~%~")
-
-    # print(25 * " ~%~")
-    # print("\n\n\t\t\t\tTesting ChiSquaredDist Class variance\n\n")
-    # print(25 * " ~%~")
-    # print(test_instance.test_newInstance_variance())
-    # print(25 * " ~%~")
-    # print("\n\n\t\t\t\tEnd of Testing ChiSquaredDist Class variance\n\n")
-    # print(25 * " ~%~")
-
-    # # print(25 * " ~%~")
-    # # print("\n\n\t\t\t\tTesting ChiSquaredDist Class std_dev\n\n")
-    # # print(25 * " ~%~")
-    # # print(test_instance.test_newInstance_std_dev())
-    # # print(25 * " ~%~")
-    # # print("\n\n\t\t\t\tEnd of Testing ChiSquaredDist Class std_dev\n\n")
-    # # print(25 * " ~%~")
+    test_instance = NegBinomialDist_Test()
+    print(25 * " ~%~")
+    print("\n\n\t\t\t\tTesting Negative Binomial Class mean\n\n")
+    print(25 * " ~%~")
+    print(test_instance.test_newInstance_mean())
+    print(25 * " ~%~")
+    print("\n\n\t\t\t\tEnd of Testing Negative Binomial Class mean\n\n")
+    print(25 * " ~%~")
 
     print(25 * " ~%~")
-    print("\n\n\t\t\t\tTesting ChiSquaredDist Class pmf\n\n")
+    print("\n\n\t\t\t\tTesting Negative Binomial Class variance\n\n")
+    print(25 * " ~%~")
+    print(test_instance.test_newInstance_variance())
+    print(25 * " ~%~")
+    print("\n\n\t\t\t\tEnd of Testing Negative Binomial Class variance\n\n")
+    print(25 * " ~%~")
+
+    print(25 * " ~%~")
+    print("\n\n\t\t\t\tTesting Negative Binomial Class pmf\n\n")
     print(25 * " ~%~")
     print(test_instance.test_newInstance_pmf())
     print(25 * " ~%~")
-    print("\n\n\t\t\t\tEnd of Testing ChiSquaredDist Class pmf\n\n")
+    print("\n\n\t\t\t\tEnd of Testing Negative Binomial Class pmf\n\n")
     print(25 * " ~%~")
 
     print(25 * " ~%~")
-    print("\n\n\t\t\t\tTesting ChiSquaredDist Class cdf\n\n")
+    print("\n\n\t\t\t\tTesting Negative Binomial Class cdf\n\n")
     print(25 * " ~%~")
     print(test_instance.test_newInstance_cdf())
     print(25 * " ~%~")
-    print("\n\n\t\t\t\tEnd of Testing ChiSquaredDist Class\n\n")
+    print("\n\n\t\t\t\tEnd of Testing Negative Binomial Class\n\n")
     print(25 * " ~%~")
+
 
 if __name__ == "__main__":
     main()

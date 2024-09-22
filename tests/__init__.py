@@ -1,5 +1,5 @@
 # KishStats_API/__init__.py
-from .distributions import (
+from ..KamiStats.distributions import (
     BinomialDist,
     HypergeometricDist,
     PoissonDist,

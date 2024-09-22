@@ -9,6 +9,14 @@ __pycache__
 *.py[cod]
 *$py.class
 
+# Pypi packages & dependencies
+dist/
+build/
+*.egg-info/
+kami.toml
+LICENSE.txt
+MANIFEST.in
+
 # C extensions
 *.so
 
