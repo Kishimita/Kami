@@ -1,5 +1,5 @@
 # KamiStats/__init__.py
-from KamiStats.KamiStats.distributions import (
+from KamiStats.distributions import (
     BinomialDist,
     HypergeometricDist,
     PoissonDist,

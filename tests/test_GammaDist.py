@@ -1,6 +1,6 @@
 import json 
 import unittest
-from KamiStats.KamiStats.distributions import GammaDist
+from KamiStats.distributions import GammaDist
 
 class Gamma_Test(unittest.TestCase):
     def __init__(self):

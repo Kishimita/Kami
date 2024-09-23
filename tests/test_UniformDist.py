@@ -1,6 +1,6 @@
 import json
 import unittest
-from KamiStats.KamiStats.distributions import UniformDist
+from KamiStats.distributions import UniformDist
 
 class UniformDist_Test(unittest.TestCase):
     """Test class for the UniformDist class"""

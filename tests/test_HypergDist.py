@@ -1,6 +1,6 @@
 import json
 import unittest
-from KamiStats.KamiStats.distributions import HypergeometricDist
+from KamiStats.distributions import HypergeometricDist
 
 class HypergeometricDist_Test(unittest.TestCase):
     def __init__(self):

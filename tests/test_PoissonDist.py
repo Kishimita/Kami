@@ -1,6 +1,6 @@
 import json
 import unittest
-from KamiStats.KamiStats.distributions import PoissonDist
+from KamiStats.distributions import PoissonDist
 
 class PoissonDist_Test(unittest.TestCase):
     def __init__(self):

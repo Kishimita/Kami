@@ -1,6 +1,6 @@
 import json
 import unittest
-from KamiStats.KamiStats.distributions import StudentDist
+from KamiStats.distributions import StudentDist
 
 class T_Test(unittest.TestCase):
     def __init__(self):

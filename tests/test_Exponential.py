@@ -1,6 +1,6 @@
 import unittest
 import json
-from KamiStats.KamiStats.distributions import ExponentialDist
+from KamiStats.distributions import ExponentialDist
 
 class ExponentialDist_Test(unittest.TestCase):
     def __init__(self):

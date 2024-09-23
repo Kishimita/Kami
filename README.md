@@ -35,10 +35,10 @@ The BinomialDist class represents a binomial distribution.
 
 Example
 ```python 
-from distributions import BinomialDist
+from KamiStats import distributions as dist
 
 # Create a Binomial distribution instance
-binom_dist = BinomialDist(n=10, p=0.5, q=0.5, k=5)
+binom_dist = dist.BinomialDist(n=10, p=0.5, q=0.5, k=5)
 
 # Calculate the probability mass function
 print(binom_dist.pmf())
@@ -61,10 +61,10 @@ The HypergeometricDist class represents a hypergeometric distribution.
 
 Example
 ```python
-from distributions import HypergeometricDist
+from KamiStats import distributions as dist 
 
 # Create a Hypergeometric distribution instance
-hypergeom_dist = HypergeometricDist(N=20, n=10, K=5, k=3)
+hypergeom_dist = dist.HypergeometricDist(N=20, n=10, K=5, k=3)
 
 # Calculate the probability mass function
 print(hypergeom_dist.pmf())
@@ -87,10 +87,10 @@ The PoissonDist class represents a Poisson distribution.
 
 Example
 ```python
-from distributions import PoissonDist
+from KamiStats import distributions as dist 
 
 # Create a Poisson distribution instance
-poisson_dist = PoissonDist(λ=4, k=2)
+poisson_dist = dist.PoissonDist(λ=4, k=2)
 
 # Calculate the probability mass function
 print(poisson_dist.pmf())

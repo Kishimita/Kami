@@ -1,6 +1,6 @@
 import json 
 import unittest
-from KamiStats.KamiStats.distributions import FDist
+from KamiStats.distributions import FDist
 
 class F_Test(unittest.TestCase):
     def __init__(self):

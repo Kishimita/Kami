@@ -1,6 +1,6 @@
 import json 
 import unittest
-from KamiStats.KamiStats.distributions import NegativeBinomialDist
+from KamiStats.distributions import NegativeBinomialDist
 
 class NegBinomialDist_Test(unittest.TestCase):
     def __init__(self):

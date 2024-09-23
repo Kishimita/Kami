@@ -1,6 +1,6 @@
 import json
 import unittest
-from KamiStats.KamiStats.distributions import GeometricDist
+from KamiStats.distributions import GeometricDist
 
 class GeometricDist_Test(unittest.TestCase):
     def __init__(self):
